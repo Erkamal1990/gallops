@@ -1,0 +1,240 @@
+<style type="text/css">    
+.filterRow ul li { 
+	list-style: none;
+}
+.filterRow li {
+	display: inline-block;
+}
+.logo{
+   width: 45px;
+   display: inline-block;
+   margin: 0 10px;
+}
+.logo>img{
+   max-width: 100%;
+}
+</style>
+<!-- <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+   <span class="mask bg-gradient-primary opacity-8"></span>    
+   <div class="container-fluid d-flex align-items-center">
+      <div class="row">
+         <div class="col-lg-12">
+            <h1 class="display-3 text-white">{{page_title}}</h1>
+         </div>
+      </div>
+   </div>
+</div> -->
+<div class="container-fluid">
+   <div class="row">
+
+      <div class="mb-4 col-sm-12">
+         <div class="row">
+            <div class="col-xl-3 col-sm-4">
+               <h4 class="green text-sm m-0">{{page_title}}</h4>
+            </div>
+         </div>
+      </div>
+
+      <div class="mb-3 col-sm-12">
+         <div class="row">
+            <div class="col-sm-3">
+               <div class="searchBox">
+                  <input class="text-sm" ng-model="search_str" placeholder="Order Number" name="srch-term" id="srch-term" type="text" autocomplete="off" ng-keyup="loadOrders()" class="text-sm" />
+                  <span class="searchIcon"><i class="fa fa-search"></i></span>
+               </div>
+            </div>
+            <div class="col-sm-6">
+               
+            </div>
+            <div class="col-sm-3">
+               <div ng-if="!tip" class="dropdown pull-right">
+                  <a class="actionButton filterBtn" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                     <span class="text-capitalize">{{filter_text}}</span>&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+                  </a>
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                     <span class="dropdown-item" ng-click="filterStatus('')">
+                        All
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('placed')">
+                        Order Placed
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('accepted')">
+                        Order Accepted
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('pickedup')">
+                        Order Picked Up
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('delivered')">
+                        Order Delivered
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('cancelled')">
+                        Order Cancelled
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-xl-12 order-xl-12 mb-12 mb-xl-0">
+         <div class="card shadow">
+            <!-- <div class="card-header border-0">
+               <div class="row">
+                  <div class="col-xl-4 col-sm-4">
+                      <div class="filterRow">
+                          <ul class="flex" style="padding-left: 0;margin-top: 10px;">
+                              <li style="margin-right: 15px;">
+                                  <div class="custom-control custom-radio"> <input type="radio" id="all" ng-click="loadhsnCode()" name="status" ng-model="search_obj.status" value="" class="custom-control-input"> <label class="custom-control-label" for="all">All</label> </div>
+                              </li>
+                              <li style="margin-right: 15px;">
+                                  <div class="custom-control custom-radio"> <input type="radio" id="active" ng-click="loadhsnCode()" name="status" ng-model="search_obj.status" value="1" class="custom-control-input"> <label class="custom-control-label" for="active">Active</label> </div>
+                              </li>
+                              <li>
+                                  <div class="custom-control custom-radio"> <input type="radio" id="inactive" ng-click="loadhsnCode()" name="status" ng-model="search_obj.status" value="0" class="custom-control-input"> <label class="custom-control-label" for="inactive">Inactive</label> </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="col-xl-5 col-sm-4">
+                     <div class="text-right">
+                     	<a class="btn btn-icon btn-3 btn-primary" href="coupons/add">
+                     		<span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                     		<span class="">Add New</span>
+                     	</a>
+                     </div>
+                  </div>
+                  <div class="clearfix"></div>
+               </div>
+            </div> -->
+            <div class="row" ng-show="isLoading">
+               <div class="col-lg-12 loadingWrapper">
+                  <div class="spinner">
+                      <div class="rect1"></div>
+                      <div class="rect2"></div>
+                      <div class="rect3"></div>
+                      <div class="rect4"></div>
+                      <div class="rect5"></div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="card-body" ng-show="!isLoading">
+               <table class="table align-items-center listTable">
+                  <thead class="">
+                     <tr class="headerTh">
+                        <th width="30%;">Customer</th>
+                        <th>Order Number</th>
+                        <!-- <th>Restaurant</th> -->
+                        <th><span ng-if="!tip">Total</span><span ng-if="tip">Tip</span></th>
+                        <th ng-if="delivery_type == 'scheduled'" class="text-center" scope="col">Schedule Date</th>
+                        <th class="text-right" scope="col">Date</th>
+                        <th ng-if="!tip" class="text-right" scope="col">Action</th>
+                     </tr>
+                  </thead>
+                  <tbody class="list">
+                     <tr ng-if="(ordersList.length <= 0) && !isLoading">
+                        <td colspan="6" class="text-center">No Orders Found</td>
+                     </tr>
+                     <tr ng-repeat="order in filterBrands = (ordersList | filter: search_str)" ng-if="ordersList.length > 0 && !isLoading">
+                        <td scope="row" class="name" style="white-space: normal;">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                 <span class="mb-0 text-sm text-capitalize">
+                                    <span ng-if="order.address.name"><strong>{{order.address.name}}</strong> <span ng-if="order.is_jain == '1'">(Jain)</span><br/></span>
+                                    <span ng-if="order.address.contact"><strong>{{order.address.contact}}</strong><br/></span>
+                                    <span ng-if="order.address.address_type">{{order.address.address_type}}<span ng-if="order.order_from == 'swiggy' || order.order_from == 'zomato'"> - {{order.order_from}}</span><br/></span>
+                                 </span>
+                                 <span ng-if="order.undeliverd_count > 0 && order.address.address_type == 'dinning'" class="btn-sm btn-danger">Undelivered Items : {{order.undeliverd_count}}</span>
+                              </div>
+                           </div>
+                        </td>
+                        <td scope="row" class="name geeks">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                 <span class="mb-0 text-sm">
+                                    <a class="clickable_link" href="orders/view/{{toBase64(order.order_id)}}">
+                                       <strong>#{{order.order_number}}</strong>
+                                    </a>
+                                 </span>
+                              </div>
+                           </div>
+                        </td>
+                        <td scope="row" class="name">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                 <span ng-if="!tip" class="mb-0 text-sm">
+                                   ₹ {{order.grand_total}} <span ng-if="order.tips > 0">(+ ₹ {{order.tips}} Tips)</span>
+                                 </span>
+                                 <span ng-if="tip" class="mb-0 text-sm">
+                                   ₹ {{order.tips}}</span>
+                                 </span>
+                              </div>
+                           </div>
+                        </td>
+                        <td class="text-right" ng-if="delivery_type == 'scheduled'">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                 <span class="mb-0 text-sm text-capitalize">{{order.schedule_date}}</span>
+                              </div>
+                           </div>
+                        </td>
+                        <td class="text-right">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                 <span class="mb-0 text-sm text-capitalize">{{order.order_date}}</span>
+                              </div>
+                           </div>
+                        </td>
+                        <td ng-if="!tip" class="text-right">
+                           <div class="dropdown">
+                              <a class="actionButton" href="javascript:void(0);"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                              ng-if="order.status == 'cancelled' || order.status == 'delivered'"
+                              ng-class="{'delivered' : order.status == 'delivered','cancelled' : order.status == 'cancelled'}"> 
+                                <span class="text-capitalize">{{order.status}}</span>
+                                <span ng-if="order.status == 'delivered'">&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-down"></i></span>
+                              </a>
+                                 
+
+                              <a class="actionButton" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                              ng-if="order.status == 'accepted' || order.status == 'pickedup' || order.status == 'placed'"
+                              ng-class="{'inprocess' : order.status == 'pickedup','placed' : order.status == 'placed','accepted' : order.status == 'accepted'}"> 
+                                <span class="text-capitalize">{{order.status}}</span>&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+                              </a>
+
+                              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" ng-if="order.status != 'cancelled'">
+
+                                 <a class="dropdown-item" href="javascript:void(0);" ng-if="order.status == 'placed'" ng-click="changeStatus('cancelled',order,$index)">
+                                    <i class="fa fa-close"></i> Cancel Order
+                                 </a>
+                                 <a class="dropdown-item" href="javascript:void(0);" ng-if="order.status == 'placed'" ng-click="changeStatus('accepted',order,$index)">
+                                    <i class="fa fa-check"></i> Accept Order
+                                 </a>
+
+                                 <a class="dropdown-item" href="javascript:void(0);" ng-if="order.status == 'accepted'" ng-click="changeStatus('delivered',order,$index)">
+                                    <i class="fa fa-check"></i> Order Delivered
+                                 </a>
+
+                                 <a class="dropdown-item" href="javascript:void(0);" ng-if="order.status == 'delivered'" ng-click="printPage(order.order_id)">
+                                    <i class="fa fa-file"></i> Print Bill
+                                 </a>
+                                 
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <div class="text-center">
+                  <paging page="currentPage" page-size="page_limit" total="total_records" show-prev-next="true" show-first-last="true" hide-if-empty="total_records <= ((currentPage)*page_limit)" paging-action="loadOrders(page-1)" class="pull-right"></paging>
+              </div>
+            </div>
+         </div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+</div>
+
+<div class="formContent" id="printDiv" style="display:none; width: 100%;">
+   <div style="width: 100%;max-width: 400px;" ng-include="'templates/orders/print_bill.html?v=0.1'"></div>
+</div>

@@ -1,0 +1,118 @@
+<div style="width: 100%;border: solid 0px #e2e2e2;color: #000;">
+	<div style="text-align: center;font-size: 12px;">
+		I LOVE SANDWICH HOUSE <br/>UNIT OF QWICHES QUICK BITE L.L.P<br/>SHAIVAL COMPLEX, OPP. RAJPATH CLUB<br/>
+		-- INSIDE --
+	</div>
+	<div style="text-align: center; font-weight: bolder; font-size: 16px;">
+		Bill No : {{order.order_number}} <span ng-if="order.address.table_number">Tbl : {{order.address.table_number}}</span>
+	</div>
+	<div style="font-size: 12px;text-align: center;">
+		By : admin<br/>
+		Date : {{order.order_date_date}}<br/>
+		Time : {{order.order_date_time}}<br/>
+		Captain : admin<br/>
+	</div>
+
+	<div style="width: 100%;">
+		<table cellpadding="5" style="font-size: 12px; width: 100%;border-bottom: 1px dashed #000;">
+			<thead>
+				<tr>
+					<th style="text-align:left;width:50%;border-top: 1px dashed #000;border-bottom: 1px dashed #000;">Item</th>
+					<th style="text-align:left;width:20%;border-top: 1px dashed #000;border-bottom: 1px dashed #000;">Rate</th>
+					<th style="text-align:left;width:10%;border-top: 1px dashed #000;border-bottom: 1px dashed #000;">Qty</th>
+					<th style="text-align:right;width:20%;border-top: 1px dashed #000;border-bottom: 1px dashed #000;">Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in order.order_items">
+					<td>{{item.product_name}}</td>
+					<td style="text-align:left;">{{item.item_price_full}}</td>
+					<td style="text-align:left;">{{item.quantity}}</td>
+					<td style="text-align: right;">{{item.total_price_full}}</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" style="border-top: 1px dashed #000;border-bottom: 1px dashed #000;">
+						<span style="font-size: 14px;">Total Qty : </span>
+					</td>
+					<td colspan="2" style="border-top: 1px dashed #000;border-bottom: 1px dashed #000;">
+						<span style="font-size: 14px;">{{order.total_quantity}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" style="border-bottom: 1px dashed #000;">
+						<span style="font-size: 14px;">Sub Total : </span>
+					</td>
+					<td style="border-bottom: 1px dashed #000;text-align: right;">
+						<span style="font-size: 14px;">{{order.sub_total_full}}</span>
+					</td>
+				</tr>
+
+				<tr style="font-size: 12px; text-align: right;">
+					<td colspan="3" style="padding-bottom:0;">CGST 2.5% : </td>
+					<td style="padding-bottom:0; ">{{order.cgst_full}}</td>
+				</tr>
+				<tr style="font-size: 12px; text-align: right;">
+					<td colspan="3" style="padding-bottom:0;">SGST 2.5% : </td>
+					<td style="padding-bottom:0;">{{order.sgst_full}}</td>
+				</tr>
+				<tr ng-if="order.tips_full > 0" style="font-size: 12px; text-align: right;">
+					<td colspan="3" style="padding-bottom:0;">Tip : </td>
+					<td style="padding-bottom:0;">{{order.tips_full}}</td>
+				</tr>
+				<tr ng-if="order.discount_amount_full > 0" style="font-size: 12px; text-align: right;">
+					<td colspan="3" style="padding-bottom:0;">Discount : </td>
+					<td style="padding-bottom:0;">{{order.discount_amount_full}}</td>
+				</tr>
+				<tr style="font-size: 16px;font-weight: bolder;text-align: right;">
+					<td colspan="3" style="padding-bottom:0;">Grand Total : </td>
+					<td style="padding-bottom:0;">{{order.grand_total_with_tips_full}}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+
+	<div style="width: 100%;text-align: center;border-bottom: dashed 1px #000;">
+		<p style="font-size: 12px;">THANKS FOR VISITING US<br/></p>
+	</div>
+
+	<div style="width: 100%;text-align: center;border-bottom: dashed 1px #000;padding-top:10px;">
+		<p style="font-weight: bolder;text-align: left;margin: 0;padding:0;">Customer Info:</p>
+		<table cellpadding="2" style="width:100%;">
+			<tbody>
+				<tr style="font-size: 12px;" ng-if="order.address.name">
+					<td style="width: 25%;"><span style="font-weight: bolder;">Name</span></td>
+					<td style="text-transform: capitalize;">&nbsp;:&nbsp;&nbsp; {{order.address.name}}</td>
+				</tr>
+				<tr style="font-size: 12px;" ng-if="order.address.contact">
+					<td style="width: 25%;"><span style="font-weight: bolder;">Phone</span></td>
+					<td>&nbsp;:&nbsp;&nbsp; {{order.address.contact}}</td>
+				</tr>
+				<tr style="font-size: 12px;" ng-if="order.address.building_area">
+					<td style="width: 25%;"><span style="font-weight: bolder;">Address</span></td>
+					<td style="text-transform: capitalize;">&nbsp;:&nbsp;&nbsp; 
+						<span ng-if="order.address.building_area">{{order.address.building_area}}</span>
+						<span ng-if="order.address.landmark_zipcode"><br/>&nbsp;&nbsp; {{order.address.landmark_zipcode}}</span>
+					</td>
+				</tr>
+				<tr style="font-size: 12px;" ng-if="order.address.car_number">
+					<td style="width: 25%;"><span style="font-weight: bolder;">Car Number</span></td>
+					<td>&nbsp;:&nbsp;&nbsp; {{order.address.car_number}}</td>
+				</tr>
+				<tr style="font-size: 12px;" ng-if="order.address.table_number">
+					<td style="width: 25%;"><span style="font-weight: bolder;">Table Number</span></td>
+					<td>&nbsp;:&nbsp;&nbsp; {{order.address.table_number}}</td>
+				</tr>
+			</tbody>	
+		</table>
+	</div>
+
+	<div style="width: 100%;text-align: center;">
+		<p style="font-size: 12px;">
+			Delivery Date & Time : {{order.order_date}}<br/><br/>-<br/>
+			GSTIN :- 24AAAFQ6000E1ZY<br/>
+			DTTM : {{order.order_date}}
+		</p>
+	</div>
+</div>

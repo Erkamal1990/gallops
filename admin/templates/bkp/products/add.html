@@ -1,0 +1,500 @@
+<style type="text/css">
+    .uploadedImages{
+        height: 100px;
+        width: 100%;
+        margin:0 0 15px 0;
+        border: solid 1px #ddd;
+        float: left; 
+    }
+    .uploadedImages img{
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+    .card .table td{
+        padding: 10px 5px;
+    }
+    .table.variationTable .form-control{
+        padding: 8px 8px;
+        height: 45px;
+    }
+    .table.variationTable .form-group{
+        margin-bottom: 10px;
+    }
+    .variationList{
+        width: 100%;
+        float: left;
+    }
+    .variationList{
+        padding: 0;
+    }
+    .variationList>li{
+        display: inline-block;
+        margin:0 25px 5px 0; 
+    }
+
+</style>
+<!-- <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <span class="mask bg-gradient-primary opacity-8"></span>
+    <div class="container-fluid d-flex align-items-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="display-3 text-white">{{page_title}} </h1>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="container-fluid">
+    <div class="row">
+
+         <div class="mb-4 col-sm-12">
+            <div class="row">
+                <div class="col-xl-3 col-sm-4">
+                    <h4 class="green text-sm m-0">{{page_title}}</h4>
+                </div>
+            </div>
+        </div> 
+
+        <div class="col-xl-12">          
+            <div class="card shadow">            
+                <div class="card-body">              
+                    <form role="form" name="item_form" id="item_form" ng-validate="validateform" ng-submit="saveItem(item_form)">
+                        <div class="mb-4"></div>
+                        <div class=""> 
+                            <div class="row" ng-show="loadingItem">
+                                <div class="col-lg-12 loadingWrapper">
+                                    <div class="spinner">
+                                        <div class="rect1"></div>
+                                        <div class="rect2"></div>
+                                        <div class="rect3"></div>
+                                        <div class="rect4"></div>
+                                        <div class="rect5"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="category_id">Category</label>
+                                        <select name="category_id" name="category_id" ng-model="itemObj.category_id" class="form-control form-control-alternative text-capitalize" required="">
+                                            <option value="">Select Category</option>                        
+                                            <option ng-repeat="category in categoryList" value="{{category.category_id}}">{{category.name}}</option>                        
+                                        </select>                      
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-lg-6" ng-if="!itemObj.restaurant_id">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="restaurant_id">Restaurant</label>
+                                        <select name="restaurant_id" name="restaurant_id" ng-model="itemObj.restaurant_id" class="form-control form-control-alternative text-capitalize" ng-change="loadRestaurantCategory(itemObj.restaurant_id);loadAttributes();loadAddons()" ng-required="">
+                                            <option value="">Select restaurant</option>                        
+                                            <option ng-repeat="restaurant in restaurantList" value="{{restaurant.restaurant_id}}">{{restaurant.name}}</option>                        
+                                        </select>                      
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group" ng-if="itemObj.restaurant_id">
+                                        <label class="form-control-label" style="width: 100%;" for="menu_id">Restaurant Category <a href="add_restaurant_menu_category/{{toBase64(itemObj.restaurant_id)}}" class="pull-right">(+ Add Category)</a></label>
+                                        <select ng-model="itemObj.menu_id" id="menu_id" name="menu_id" class="form-control form-control-alternative text-capitalize" ng-required="">
+                                            <option value="">Select Restaurant Category</option>                        
+                                            <option ng-repeat="category in restaurantCategoryList" value="{{category.category_id}}">{{category.category}}</option>                        
+                                        </select>                      
+                                    </div>
+                                </div> -->
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="item_name">Item Name</label>
+                                        <input type="text" id="item_name" name="item_name" class="form-control form-control-alternative" ng-model="itemObj.item_name" required="" placeholder="Enter item name" />
+                                    </div>
+                                </div> 
+
+                                <div class="col-xl-12">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="item_description">Item Description</label>
+                                                <textarea id="item_description" name="item_description" class="form-control form-control-alternative"  ng-model="itemObj.item_description" placeholder="Enter few description about item"></textarea>
+                                            </div>
+                                        </div>                 
+                                       
+                                        <div class="clearfix"></div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="status">Status</label>
+                                                <select ng-model="itemObj.status" class="form-control form-control-alternative" name="status" id="status" required="">
+                                                    <option value="1">Active</option>                        
+                                                    <option value="0">Inactive</option>                        
+                                                </select>                      
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="is_customization">Serve For?</label>
+                                                        <input type="text" id="serve_for" name="serve_for" class="form-control form-control-alternative" ng-model="itemObj.serve_for" placeholder="Enter serve persons" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="is_non_veg" name="is_non_veg" ng-model="itemObj.is_non_veg" ng-true-value="1" ng-false-value="0" />
+                                                            <label class="custom-control-label" for="is_non_veg">Is nonveg?</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">                      
+                                            <div class="form-group">                        
+                                                <label class="form-control-label" for="image">image</label>                       
+                                                <input type="file" id="image" name="image" class="form-control form-control-alternative" ngf-select="" ng-model="itemObj.image" ngf-multiple="false" ngf-pattern="'.png,.jpg,.jpeg,.gif'" ngf-accept="'image/*'" ng-required="!itemObj.image" />
+                                            </div>                      
+                                            <div class="" style="margin-bottom:15px;">
+                                                <img ngf-src="itemObj.image" ng-if="itemObj.image"  style="max-width: 200px;" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="price">Item Price</label>
+                                                        <input type="number" id="price" name="price" class="form-control form-control-alternative" ng-model="itemObj.price" ng-change="setSalePrice()" placeholder="Enter item original amount" required="" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="sale_price">Dicounted Price</label>
+                                                        <input type="number" id="sale_price" name="sale_price" class="form-control form-control-alternative" placeholder="Enter item amount including discount"  ng-model="itemObj.sale_price" required="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>&nbsp;</label>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="is_combo" name="is_combo" ng-model="itemObj.is_combo" ng-true-value="1" ng-false-value="0" />
+                                                    <label class="custom-control-label" for="is_combo">Is Combo?</label>
+                                                </div>
+                                            </div>
+
+                                            <div ng-if="itemObj.is_combo == 1" class="form-group">
+                                                <input type="tetx" id="search" name="search" class="form-control form-control-alternative" placeholder="Search Products... (Example: Blooming bread pull out , Pesto caprese grilled cheese.) " ng-keyup="searchProducts()" ng-model="search_obj.search" autocomplete="off" />
+                                            </div>
+
+                                            <div class="product_suggestions" ng-if="search_obj.search.length > 2 && itemObj.is_combo == 1">
+                                                 <div ng-repeat="option in productList track by $index">
+                                                    <div class="checkbox">
+                                                        <label for="product_{{$index}}">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input ng-click="generateComboName(option.name,option.product_id)" type="checkbox" checklist-model="itemObj.combo_product" checklist-value="option" id="product_{{$index}}" class="custom-control-input" /><span class="text-capitalize custom-control-label">{{option.name}}</span>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div ng-class="{'disabled' : is_combo == 0}" class="col-md-6" ng-if="itemObj.combo_product.length > 0 && itemObj.is_combo == 1">
+                                            
+                                            <!-- 
+                                            {{itemObj.combo_item_ids}} -->
+
+                                            <h4 class="green text-sm p-3 ng-binding">Selected Products</h4>
+
+                                            <div class="selected_product_wrapper">
+                                                <div class="selected_product" ng-repeat="combo_product in itemObj.combo_product">
+                                                    <div class="media align-items-center relative">
+                                                        <a class="remove" ng-click="RemoveSelProduct($index)" href="javascript:void(0);"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                                                      <div class="media-body">
+                                                        <span class="badge badge-dot ng-scope" ng-if="product.status == 1">
+                                                          <i class="bg-success"></i>
+                                                        </span>
+                                                        <span class="mb-0 text-md">
+                                                          <span class="logo">
+                                                             <img class="rounded" width="60" src="{{combo_product.images[0]}}">
+                                                          </span>
+                                                          <strong class="ng-binding">{{combo_product.name}}</strong>
+                                                        </span>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                            </div>    
+                                        </div>
+                                        
+                                        <!-- <div class="col-lg-12">
+                                            <br/>
+                                            <br/>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-control-label">Ingredients</label>
+                                                <div style="padding: 15px; float: left; width: 100%;border: solid 1px #ccc;background: #fff;">
+                                                    <div class="row" ng-if="ingredientsList.length > 0">
+                                                        <div class="col-sm-3" ng-repeat="option in ingredientsList track by $index">
+                                                            <div class="checkbox ">
+                                                                <label for="ingredient_{{$index}}">
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" checklist-model="itemObj.ingredients" checklist-value="option.ingredient_id" id="ingredient_{{$index}}" class="custom-control-input" /><span class="text-capitalize custom-control-label">{{option.name}}</span>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> --><div class="clearfix"></div>
+
+                                        <!-- <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <br/>
+                                                <br/>
+                                                <label class="form-control-label" style="width: 100%;">Extra Items <a href="restaurant_addons/{{toBase64(itemObj.restaurant_id)}}" class="pull-right">(+ Add extra items)</a></label>
+
+                                                <div style="padding: 15px; float: left; width: 100%;border: solid 1px #ccc;background: #fff;">
+                                                    <table class="table variationTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 30%">Add on Title</th>
+                                                                <th style="width: 30%">Add on item</th>
+                                                                <th style="width: 30%">Add on price</th>
+                                                                <th style="width: 10%; text-align: right;">
+                                                                    <div>
+                                                                        <a ng-click="addMoreAddons()" href="javascript:void(0)">+ ADD</a>
+                                                                    </div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="addon in itemObj.addons">
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <select ng-model="addon['addon_for']" class="form-control form-control-alternative" ng-required="validateAddonRow(addon)" 
+                                                                        ng-blur="checkFocused($index)" name="addon_for_{{$index}}" id="addon_for_{{$index}}" ng-class='{"error" : (item_form["addon_for_"+$index].$error.required) && activeFocused.indexOf($index) != -1}'>
+                                                                            <option value="">Select option</option>
+                                                                            <option ng-repeat="addon in addonList" value="{{addon.addon_for}}">{{addon.addon_for}}</option>
+                                                                        </select>
+                                                                        <label ng-if='(item_form["addon_for_"+$index].$error.required) && activeFocused.indexOf($index) != -1' class="error">This field is required</label>                  
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <select ng-model="addon['addon_title']" class="form-control form-control-alternative" ng-required="validateAddonRow(addon)" 
+                                                                        ng-blur="checkFocused($index)" name="addon_title_{{$index}}" id="addon_title_{{$index}}" ng-class='{"error" : (item_form["addon_title_"+$index].$error.required) && activeFocused.indexOf($index) != -1}'>
+                                                                            <option value="">Select option</option>
+                                                                            <option ng-repeat="option in optionsList" value="{{option}}">{{option}}</option>
+                                                                        </select>
+                                                                        <label ng-if='(item_form["addon_title_"+$index].$error.required) && activeFocused.indexOf($index) != -1' class="error">This field is required</label>                 
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <input type="number" name="price" ng-model="addon['addon_price']" class="form-control form-control-alternative">
+                                                                    </div>
+                                                                </td>
+                                                                
+                                                                <td class="text-right">
+                                                                    <div ng-if="!$first || itemObj.addons.length > 1" style="margin: 15px 0 0 0;">
+                                                                        <a ng-click="itemObj.addons.splice($index, 1)" href="javascript:void(0)">- Remove</a>
+                                                                    </div>
+                                                                    <div ng-if="$last" style="margin: 15px 0 0 0;">
+                                                                        <a ng-click="addMoreAddons()" href="javascript:void(0)">+ Add More</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+
+                                        
+                                        <div class="col-xl-12" ng-if="itemObj.is_customization == 1">
+                                            <div class="form-group">
+                                                <br/>
+                                                <br/>
+                                                <label class="form-control-label" style="width: 100%;">Variations <a href="restaurant_attribute/{{toBase64(itemObj.restaurant_id)}}" class="pull-right">(+ Add More variations)</a></label>
+                                                <div style="padding: 15px; float: left; width: 100%;border: solid 1px #ccc;background: #fff;">  
+                                                    <div class="">
+                                                        <ul class="variationList">
+                                                            <li ng-repeat="attribute in attributeList">
+                                                                <div class="checkbox">
+                                                                    <label for="variation_{{$index}}">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" checklist-model="itemObj.variation_selection" checklist-value="attribute.attribute_id" id="variation_{{$index}}" class="custom-control-input" />
+                                                                            <span class="text-capitalize custom-control-label">{{attribute.title}}</span>
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <br/><br/>
+                                                    <table class="table variationTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th ng-repeat="attribute in attributeList" ng-show="itemObj.variation_selection.indexOf(attribute.attribute_id) !== -1">{{attribute.title}}</th>
+                                                                <th>Price</th>
+                                                                <th>Status</th>
+                                                                <th>Is Default</th>
+                                                                <th style="width: 10px;">
+                                                                    <div>
+                                                                        <a ng-click="addMorePacks()" href="javascript:void(0)">+ ADD</a>
+                                                                    </div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        
+                                                        <tbody>
+                                                            <tr ng-repeat="variation in itemObj.variations">
+                                                                <td ng-repeat="(key,value) in attributeList" ng-show="itemObj.variation_selection.indexOf(value.attribute_id) !== -1" style="min-width: 150px;">
+                                                                    <div class="form-group">
+                                                                        <select ng-model="variation.attributes[value.attribute_id]" class="form-control form-control-alternative">
+                                                                            <option value="">N/A</option>
+                                                                            <option ng-repeat="variation_value in value.values" value="{{variation_value}}">{{variation_value}}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <input type="number" name="price_{{$index}}" id="price_{{$index}}" ng-model="variation['price']" class="form-control form-control-alternative" placeholder="Original Price"
+                                                                        ng-required="validateVariationRow(variation)" 
+                                                                        ng-blur="checkFocusedVariation($index)"
+                                                                         />
+                                                                        <label ng-if='(item_form["price_"+$index].$error.required) && activeFocusedVariation.indexOf($index) != -1' class="error">This field is required</label>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <input type="number" name="sale_price_{{$index}}" id="sale_price_{{$index}}" ng-model="variation['sale_price']" class="form-control form-control-alternative" placeholder="Dicount Price"
+                                                                        ng-required="validateVariationRow(variation)" 
+                                                                        ng-blur="checkFocusedVariation($index)" />
+
+                                                                        <label ng-if='(item_form["sale_price_"+$index].$error.required) && activeFocusedVariation.indexOf($index) != -1' class="error">This field is required</label>
+                                                                    </div>
+                                                                </td>
+                                                                <!-- <td>
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="description" ng-model="variation['description']" class="form-control form-control-alternative">
+                                                                    </div>
+                                                                </td> -->
+                                                                <td style="min-width: 110px;">
+                                                                    <div class="form-group">
+                                                                        <select 
+                                                                        ng-model="variation['status']" 
+                                                                        class="form-control form-control-alternative" 
+                                                                        ng-required="validateVariationRow(variation)" 
+                                                                        ng-blur="checkFocusedVariation($index)"
+                                                                        name="status_{{$index}}" id="status_{{$index}}"
+                                                                        >
+                                                                            <option value="">Select status</option>                        
+                                                                            <option value="1">Active</option>                        
+                                                                            <option value="0">Inactive</option>                        
+                                                                        </select>
+                                                                    </div>
+                                                                    <label ng-if='(item_form["status_"+$index].$error.required) && activeFocusedVariation.indexOf($index) != -1' class="error">This field is required</label>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group" style="margin: 15px 0 0 0;">
+                                                                        <label class="" for="is_default_{{$index}}">
+                                                                        <input type="radio" id="is_default_{{$index}}" name="is_default" ng-model="variation['is_default']" value="1" />
+                                                                        Is Default</label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div ng-if="!$first" style="margin: 15px 0 0 0;">
+                                                                        <a ng-click="itemObj.variations.splice($index, 1)" href="javascript:void(0)">- Remove<br/></a>
+                                                                    </div>
+                                                                    <div ng-if="$last" style="margin: 15px 0 0 0;">
+                                                                        <a ng-click="addMorePacks()" href="javascript:void(0)">+ Add More</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+
+                                        <div class="clearfix"></div>
+                                        <div class="col-lg-12">
+                                            <div class="text-center">
+                                                <button ng-class="{'disabled':saving == true}" type="submit" class="btn btn-primary my-4 mx-6 px-lg-5">
+                                                    Save &nbsp; <i class="fas fa-spinner fa-spin" ng-if="saving" class="gif_loader"></i>
+                                                </button>
+                                            </div>
+                                        </div><div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    
+    .padding_rev_15 {
+        margin-left: -30px;
+        margin-right: -30px;
+    }
+
+    .checkbox {
+        border-bottom: 1px solid #eee;
+        padding: 10px 0px 4px 0;
+    }
+
+    .product_suggestions {
+        max-height: 300px;
+        overflow: auto;
+        box-shadow: 1px 3px 9px -1px rgba(0,0,0,0.2);
+        padding: 15px;
+        border-bottom-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+
+    /*.selected_product_wrapper{
+        max-height:400px;
+        overflow: auto;
+    }*/
+
+    .selected_product_wrapper{
+        max-height: 415px;
+        overflow: auto;
+        box-shadow: 0px 2px 9px -1px rgba(0,0,0,0.15);
+        padding-bottom: 5px;
+        border-bottom-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+        border-top: 1px solid #eee;
+    }
+    
+    .selected_product{
+        cursor: pointer;
+        border-radius: 10px;
+        border: solid 1px #e0e0e0;
+        padding: 10px;
+        margin: 10px;
+        box-shadow: 0px 1px 15px -2px rgba(0,0,0,0.2);
+    }
+
+    .relative{position: relative;}
+
+    .remove{
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+</style>

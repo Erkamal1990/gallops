@@ -1,0 +1,173 @@
+  <div class="container-fluid">
+
+    <div class="mb-3 col-sm-3">
+          <div class="form-group row">
+              <div class="custom-control">
+                  <input ng-click="displayFilter(filterObjsales.filtertype)" type="radio" class="custom-control-input" id="by_month_year" name="by_month_year" value="month" ng-model="filterObjsales.filtertype">
+                  <label class="custom-control-label" for="by_month_year">By Month & Year</label>
+              </div>&nbsp;&nbsp;&nbsp;&nbsp;
+
+              <div class="custom-control">
+                  <input ng-click="displayFilter(filterObjsales.filtertype)" type="radio" class="custom-control-input" id="by_date" name="by_date" value="date" ng-model="filterObjsales.filtertype">
+                  <label class="custom-control-label" for="by_date">By Date</label>
+              </div>
+          </div>
+      </div>
+
+   <div class="row">
+
+      <div class="mb-4 col-sm-12">
+         <div class="row">
+            <div class="col-xl-3 col-sm-4">
+               <h4 class="green text-sm m-0">{{page_title}}</h4>
+            </div>
+         </div>
+      </div>
+
+      <div ng-class="{'ng-show' : filterObjsales.filtertype == 'date'}" class="mb-3 col-sm-3" style="display:none;">
+         <div class="searchBox">
+             <input date-range-picker placeholder="On / From - To" class="text-sm date-picker" name="deal_date" type="text" ng-model="filterObjsales.date" max="maxDate" min="minDate" options="options"/>
+             <span ng-click="clearDateReport()" class="clearDate" ng-if="filterObjsales.date.startDate"><i class="fa fa-times"></i></span><br/>
+         </div>
+      </div>
+
+      <div ng-class="{'ng-show' : filterObjsales.filtertype == 'month'}"  class="mb-3 col-sm-2" style="display:none;">
+        <select id="year" name="year" ng-model="filterObjsales.years" class="text-capitalize form-control form-control-small form-control-alternative" ng-change="get_report(32,0)">
+            <option value="">Select Year</option>                        
+            <option value="{{year}}" ng-repeat="year in yearList">{{year}}</option>                 
+        </select>
+      </div>
+
+      <div ng-class="{'ng-show' : filterObjsales.filtertype == 'month'}" class="mb-3 col-sm-2" style="display:none;">
+        <select id="month" name="month" ng-model="filterObjsales.months" class="text-capitalize form-control form-control-small form-control-alternative" ng-change="get_report(32,0)">
+            <option value="">Select Month</option>                        
+            <option value="{{month.month}}" ng-repeat="month in monthList">{{month.name}}</option>                 
+        </select>
+      </div>
+
+     </div> 
+      
+      <!-- <div class="dashboard_filter">
+        <input date-range-picker placeholder="On / From - To" class="form-control date-picker" name="deal_date" type="text" ng-model="filterObjsales.date" max="maxDate" min="minDate" options="options"/>
+        <span ng-click="clearDateReport()" class="clearDate" ng-if="filterObjsales.date.startDate"><i class="fa fa-times"></i></span><br/>
+      </div> -->
+
+        <div class="card shadow">
+          <div class="card-body">
+             <table class="table align-items-center listTable" ng-show="!isLoading">
+                <thead class="">
+                   <tr class="headerTh">
+                      <th width="5">Date</th>
+                      <th class="text-right">Sub Total</th>
+                      <th class="text-right">CGST</th>
+                      <th class="text-right">SGST</th>
+                      <th class="text-right">Total GST</th>
+                      <th class="text-right">Total Bill</th>
+                      <th class="text-right">Round Off</th>
+                      <th class="text-right">Cash</th>
+                      <th class="text-right">Online Payment</th>
+                      <th class="text-right">Other Payment</th>
+                      <!-- <th class="text-right" scope="col">Date</th>
+                      <th ng-if="!tip" class="text-right" scope="col">Action</th> -->
+                   </tr>
+                </thead>
+                <tbody class="list">
+                   <tr ng-if="(reports.length <= 0) && !isLoading">
+                      <td colspan="9" class="text-center">No Data Found</td>
+                   </tr>
+                   <tr ng-repeat="report in filterBrands = (reports | filter: search_str)" ng-if="reports.length > 0 && !isLoading">
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm"><strong>{{report.date}}</strong></span>
+                            </div>
+                         </div>
+                      </td>
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks text-right">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm">₹ {{report.sub_total}}</span>
+                            </div>
+                         </div>
+                      </td>
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks text-right">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm">₹ {{report.cgst}}</span>
+                            </div>
+                         </div>
+                      </td>
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks text-right">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm">₹ {{report.sgst}}</span>
+                            </div>
+                         </div>
+                      </td>
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks text-right">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm">₹ {{report.total_gst}}</span>
+                            </div>
+                         </div>
+                      </td>
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks text-right">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm">₹ {{report.total_bill}}</span>
+                            </div>
+                         </div>
+                      </td>
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks text-right">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm">₹ {{report.round_off}}</span>
+                            </div>
+                         </div>
+                      </td>
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks text-right">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm">₹ {{report.cash_payment}}</span>
+                            </div>
+                         </div>
+                      </td>
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks text-right">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm">₹ {{report.online_payment}}</span>
+                            </div>
+                         </div>
+                      </td>
+                      <td ng-class="{'bold': $index == total_records}" scope="row" class="name geeks text-right">
+                         <div class="media align-items-center">
+                            <div class="media-body">
+                               <span class="mb-0 text-sm">₹ {{report.other_method}}</span>
+                            </div>
+                         </div>
+                      </td>
+                   </tr>
+                </tbody>
+             </table>
+           </div>
+        </div> <br/>
+       <div class="text-center">
+          <paging page="page" page-size="limit" total="total_records" show-prev-next="true" show-first-last="true" hide-if-empty="total_records <= ((page)*limit)" paging-action="get_report(limit,page-1)" class="pull-right"></paging>
+      </div>  
+  </div>
+
+</div>
+
+<style type="text/css">
+
+h3.text-center.text-uppercase {
+    padding-bottom: 5px;
+    display: block;
+    margin: 0 auto;
+    width: 300px;
+    line-height: 3;
+}
+
+.ng-show{display:block !important;}
+
+</style>

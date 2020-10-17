@@ -1,0 +1,93 @@
+<style type="text/css">    
+.filterRow ul li { 
+  list-style: none;
+}
+.filterRow li {
+  display: inline-block;
+}
+.logo{
+   width: 45px;
+   display: inline-block;
+   margin: 0 10px;
+}
+.logo>img{
+   max-width: 100%;
+   border-radius: 5px;
+}
+</style>
+<div class="container-fluid">
+   <div class="row">
+      <div class="mb-4 col-sm-12">
+         <div class="row">
+            <div class="col-xl-3 col-sm-4">
+               <h4 class="green text-sm m-0">{{page_title}}</h4>
+
+            </div>
+         </div>
+      </div>
+
+      <div class="mb-3 col-sm-12">
+        <div class="row">
+          <div class="col-sm-3">
+             <!-- <div class="searchBox">
+                <input class="text-sm" ng-model="search_obj.search" placeholder="Search Category" name="srch-term" id="srch-term" type="text" autocomplete="off" ng-keyup="loadCategory()">
+                <span class="searchIcon"><i class="fa fa-search"></i></span>
+             </div> -->
+          </div>
+          <div class="col-sm-3">
+            
+          </div>
+          <div class="col-sm-2"></div>
+          
+          <div class="col-sm-4">
+            <div class="text-right">
+               <div class="dropdown">
+                  <a class="actionButton filterBtn" href="colors/add"> 
+                     <span class="text-capitalize">Add New</span>
+                  </a>
+               </div>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 order-xl-12 mb-12 mb-xl-0">
+         <div class="card shadow">
+            <div class="card-body">
+               <table class="table align-items-center listTable">
+                  <thead class="">
+                     <tr>
+                        <th>Model Color</th>                        
+                        <th>Color Code</th>                                               
+                        <th width="100px" class="text-right" scope="col">Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody class="list">
+                     <tr ng-if="(categoryList.length < 1 || filterBrands.length == 0) && !isLoading">
+                        <td colspan="6" class="text-center">No data found!</td>
+                     </tr>
+                     <tr ng-repeat="category in filterBrands = (categoryList | filter: search_str)" ng-if="categoryList.length > 0 && !isLoading">
+                        <td class="name"></td>
+                        <td class="name"></td>
+                        <td class="text-right">
+                           <div class="dropdown">                                        
+                              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">                                            
+                                 <hr style="margin: 5px auto;" />
+                                 <a class="dropdown-item" href="categories/update/{{toBase64(category.category_id)}}">
+                                  <i class="fa fa-edit"></i> Edit
+                                 </a>
+                                 <a class="dropdown-item" href="javaScript:void(0)" ng-click="remove(category.category_id, $index)">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>Delete
+                                 </a>                                        
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+</div>

@@ -1,0 +1,48 @@
+<style type="text/css">
+	.menuHotelLogo{
+		width: 30px;
+		height: 30px;
+		border: solid 2px #30d4c5;
+		border-radius: 50%;
+		overflow: hidden;
+		background-color: #fff;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.menuHotelLogo>img{
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+</style>
+<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+	<div class="container-fluid">
+		<a style="visibility:hidden;" class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./index.html">{{page_title}}</a>
+		<ul class="navbar-nav align-items-center d-none d-md-flex">
+			<li class="nav-item dropdown">
+				<a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<div class="media align-items-center black">
+						<div class="media-body ml-2 d-none d-lg-block">
+							<span class="mb-0 text-sm font-weight-bold">{{admin.first_name}} {{admin.last_name}} &nbsp;&nbsp;<i class="fa fa-angle-down"></i></span> 
+							<!-- <span class="menuHotelLogo">
+								<img src="{{admin.profile}}&w=30&h=30" alt="{{admin.first_name}} {{admin.last_name}}" />
+							</span> -->
+						</div>
+					</div>
+				</a>
+				<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+					<!-- <div class=" dropdown-header noti-title">
+						<h6 class="text-overflow m-0">Welcome!</h6>
+					</div>
+					<div class="dropdown-divider"></div> -->
+					<a href="profile" class="dropdown-item"><i class="ni ni-circle-08"></i> 
+						<span>Profile</span>
+					</a>
+					<a ng-click="logout()" href="javascript:void(0);" class="dropdown-item"><i class="ni ni-user-run"></i> 
+						<span>Logout</span>
+					</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+</nav>

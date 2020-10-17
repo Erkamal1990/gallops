@@ -1,0 +1,124 @@
+
+<div class="dashboard_filter">
+  <input date-range-picker placeholder="On / From - To" class="form-control date-picker" name="deal_date" type="text" ng-model="filterObj.date" max="maxDate" min="minDate" options="options"/>
+  <span ng-click="clearDate()" class="clearDate" ng-if="filterObj.date.startDate"><i class="fa fa-times"></i></span><br/>
+</div>
+
+<div class="dashboard_filter">
+  <select ng-change="get_order_count()" name="order_type" ng-model="filterObj.order_type" class="form-control">
+    <option value="">-- Select Order Type --</option>
+    <option value="delivery">Delivery</option>
+    <option value="scheduled">Scheduled</option>
+    <option value="takeaway">Take Away</option>
+    <option value="scheduled-takeaway">Scheduled Take Away</option>
+    <option value="incar">In Car</option>
+    <option value="dinning">Dinning</option>
+  </select>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-xl-3 col-lg-6">
+        <div class="card card-stats mb-4 mb-xl-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-black mb-0">Total Sales</h5>
+                <span ng-if="!is_loading_count" class="text-danger font_20_black">₹</span> <span ng-if="!is_loading_count" class="text-danger h2 font-weight-bold mb-0">{{orderCounter.total_sales}}</span>
+                <span ng-if="is_loading_count" class="text-danger h2 font-weight-bold mb-0">loading...</span>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-danger-gradiant text-white rounded-circle shadow">
+                  <img class="width_100" src="assets/img/4.png" alt="unDelivered Items">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+      <div class="card card-stats mb-4 mb-xl-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-black mb-0">Delivered Items</h5>
+              <span ng-if="!is_loading_count" class="text-danger h2 font-weight-bold mb-0">{{orderCounter.delivered_items}}</span>
+              <span ng-if="is_loading_count" class="text-danger h2 font-weight-bold mb-0">loading...</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-danger-gradiant text-white rounded-circle shadow">
+                <img class="width_100" src="assets/img/1.png" alt="unDelivered Items">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+      <div class="card card-stats mb-4 mb-xl-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-black mb-0">unDelivered Items</h5>
+              <span ng-if="!is_loading_count" class="text-danger h2 font-weight-bold mb-0">{{orderCounter.placed_items}}</span>
+              <span ng-if="is_loading_count" class="text-danger h2 font-weight-bold mb-0">loading...</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-danger-gradiant text-white rounded-circle shadow">
+                
+                <img class="width_100" src="assets/img/2.png" alt="unDelivered Items">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+      <div class="card card-stats mb-4 mb-xl-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-black mb-0">Cancelled Orders</h5>
+              <span ng-if="!is_loading_count" class="text-danger h2 font-weight-bold mb-0">{{orderCounter.cancelled_items}}</span>
+              <span ng-if="is_loading_count" class="text-danger h2 font-weight-bold mb-0">loading...</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-danger-gradiant text-white rounded-circle shadow">
+                <img class="width_100" src="assets/img/3.png" alt="unDelivered Items">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:25px" class="col-xl-3 col-lg-6">
+      <div class="card card-stats mb-4 mb-xl-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-black mb-0">Total Tip</h5>
+              <span ng-if="!is_loading_count" class="text-danger font_20_black">₹</span> <span ng-if="!is_loading_count" class="text-danger h2 font-weight-bold mb-0">{{orderCounter.total_tips}}</span>
+              <span ng-if="is_loading_count" class="text-danger h2 font-weight-bold mb-0">loading...</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-danger-gradiant text-white rounded-circle shadow">
+                <img class="width_100" src="assets/img/tip.png" alt="unDelivered Items">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div style="width:100%; margin:30px 0;">
+       <center><canvas style="border-right:1px solid #eee;" id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" chart-dataset-override="datasetOverride" chart-click="onClick"></canvas></center>
+      </div>
+    </div>  
+      
+  </div>
+</div>

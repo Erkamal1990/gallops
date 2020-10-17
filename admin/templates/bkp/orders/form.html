@@ -1,0 +1,124 @@
+<style type="text/css">
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+	  -webkit-appearance: none;
+	  margin: 0;
+	}
+
+	/* Firefox */
+	input[type=number] {
+	  -moz-appearance:textfield;
+	}
+</style>
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">      
+	<span class="mask bg-gradient-primary opacity-8"></span>      
+	<div class="container-fluid d-flex align-items-center">        
+		<div class="row">          
+			<div class="col-lg-12">            
+				<h1 class="display-3 text-white">{{page_title}}</h1>          
+			</div>        
+		</div>    
+	</div>
+</div>
+<div class="container-fluid mt--7">      
+	<div class="row">                
+		<div class="col-xl-12">          
+			<div class="card bg-secondary shadow">            
+				<div class="card-body">              
+					<form role="form" name="coupon_form" id="coupon_form" ng-validate="validateCoupon" ng-submit="saveForm(coupon_form)">    <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="restaurant_id">Restaurant</label>
+                                    <select ng-model="couponObj.restaurant_id" class="form-control form-control-alternative" id="restaurant_id" name="restaurant_id" required="">
+                                        <option value="">Select Restaurant</option>                        
+                                        <option value="{{restaurant.restaurant_id}}" ng-repeat="restaurant in restaurantList">{{restaurant.name}}</option>                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="coupon_code">Discount code <sup class="req">*</sup></label>
+                                    <div class="pull-right fileuploadBtn">
+                                        <label>
+                                            <a href="javascipr:void(0)" ng-click="generateCode()">Generate Code</a>
+                                        </label>
+                                    </div><br/>
+                                    <input type="text" name="coupon_code" id="coupon_code" value="{{coupon_code}}" ng-model = "couponObj.coupon_code" class="form-control form-control-alternative" required="required" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="discount_type">Discount Type</label>
+                                    <select ng-model="couponObj.discount_type" class="form-control form-control-alternative" id="discount_type" name="discount_type" required="">
+                                        <option value="fixed">Fixed Amount</option>                        
+                                        <option value="percent">Percentage</option>                        
+                                    </select>                      
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="discount_amount">Discount Amount</label>
+                                    <input type="number" ng-model="couponObj.discount_amount" class="form-control form-control-alternative" id="discount_amount" name="discount_amount" required="" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="number_of_time_to_use">No of times coupon allowed to use</label>
+                                    <input type="number" ng-model="couponObj.number_of_time_to_use" class="form-control form-control-alternative" id="number_of_time_to_use" name="number_of_time_to_use" required="" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="min_purchase_amount">Minimum purchase amount</label>
+                                    <input type="number" ng-model="couponObj.min_purchase_amount" class="form-control form-control-alternative" id="min_purchase_amount" name="min_purchase_amount" required="" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="max_discount">Max discount amount</label>
+                                    <input type="number" ng-model="couponObj.max_discount" class="form-control form-control-alternative" id="max_discount" name="max_discount" required="" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="status">Status</label>
+                                    <select ng-model="couponObj.status" class="form-control form-control-alternative" id="status" name="status" required="">
+                                        <option value="1">Active</option>                        
+                                        <option value="0">Inactive</option>                        
+                                    </select>                      
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="description">Description </label>
+                                    <textarea name="description" maxlength="130" id="description" ng-model = "couponObj.description" class="form-control form-control-alternative" required="required" ></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6">                      
+                                <div class="form-group">                        
+                                    <label class="form-control-label" for="coupon_image">Coupon image</label>                       
+                                    <input type="file" id="coupon_image" name="coupon_image" class="form-control form-control-alternative" ngf-select="" ng-model="couponObj.coupon_image" ngf-multiple="false" ngf-pattern="'.png,.jpg,.jpeg,.gif'" ngf-accept="'image/*'" ng-required="!couponObj.coupon_image" />
+                                </div>                      
+                                <div class="img_prev" style="margin-bottom:15px; width: 280px;height: 80px;" ng-if="couponObj.coupon_image">
+                                    <img ngf-src="couponObj.coupon_image" style="width: 100%;height: 100%;object-fit: contain;" />                      
+                                </div>                    
+                            </div>
+
+
+                            <div class="clearfix"></div>
+                            <div class="col-lg-12">
+                                <div class="text-center">
+                                    <button ng-class="{'disabled':isSubmitting == true}" type="submit" class="btn btn-primary my-4 mx-6 px-lg-5">
+                                        <img src="assets/img/submit.gif" ng-if="isSubmitting" height="18" class="gif_loader" />Save
+                                    </button>
+                                </div>
+                            </div><div class="clearfix"></div>
+                        </div>
+                    </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

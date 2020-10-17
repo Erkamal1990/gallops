@@ -1,0 +1,176 @@
+<style type="text/css">    
+.filterRow ul li { 
+	list-style: none;
+}
+.filterRow li {
+	display: inline-block;
+}
+.logo{
+   width: 45px;
+   display: inline-block;
+   margin: 0 10px;
+}
+.logo>img{
+   max-width: 100%;
+}
+</style>
+
+<div class="container-fluid">
+   <div class="row">
+
+      <div class="mb-4 col-sm-12">
+         <div class="row">
+            <div class="col-xl-3 col-sm-4">
+               <h4 class="green text-sm m-0">{{page_title}}</h4>
+            </div>
+         </div>
+      </div>
+
+      <div class="mb-3 col-sm-12">
+         <div class="row">
+            <div class="col-sm-3">
+               <div class="searchBox">
+                  <input class="text-sm" ng-model="search_str" placeholder="Conact Number OR Name" name="srch-term" id="srch-term" type="text" autocomplete="off" ng-keyup="loadUsers()" class="text-sm" />
+                  <span class="searchIcon"><i class="fa fa-search"></i></span>
+               </div>
+            </div>
+            <!-- <div class="col-sm-6">  
+            </div>
+            <div class="col-sm-3">
+               <div class="dropdown pull-right">
+                  <a class="actionButton filterBtn" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                     <span class="text-capitalize">{{filter_text}}</span>&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+                  </a>
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                     <span class="dropdown-item" ng-click="filterStatus('')">
+                        All
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('placed')">
+                        Order Placed
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('accepted')">
+                        Order Accepted
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('pickedup')">
+                        Order Picked Up
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('delivered')">
+                        Order Delivered
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('cancelled')">
+                        Order Cancelled
+                     </span>
+                  </div>
+               </div>
+            </div> -->
+         </div>
+      </div>
+
+      <div class="col-xl-12 order-xl-12 mb-12 mb-xl-0">
+         <div class="card shadow">
+            <!-- <div class="card-header border-0">
+               <div class="row">
+                  <div class="col-xl-4 col-sm-4">
+                      <div class="filterRow">
+                          <ul class="flex" style="padding-left: 0;margin-top: 10px;">
+                              <li style="margin-right: 15px;">
+                                  <div class="custom-control custom-radio"> <input type="radio" id="all" ng-click="loadhsnCode()" name="status" ng-model="search_obj.status" value="" class="custom-control-input"> <label class="custom-control-label" for="all">All</label> </div>
+                              </li>
+                              <li style="margin-right: 15px;">
+                                  <div class="custom-control custom-radio"> <input type="radio" id="active" ng-click="loadhsnCode()" name="status" ng-model="search_obj.status" value="1" class="custom-control-input"> <label class="custom-control-label" for="active">Active</label> </div>
+                              </li>
+                              <li>
+                                  <div class="custom-control custom-radio"> <input type="radio" id="inactive" ng-click="loadhsnCode()" name="status" ng-model="search_obj.status" value="0" class="custom-control-input"> <label class="custom-control-label" for="inactive">Inactive</label> </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="col-xl-5 col-sm-4">
+                     <div class="text-right">
+                     	<a class="btn btn-icon btn-3 btn-primary" href="coupons/add">
+                     		<span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                     		<span class="">Add New</span>
+                     	</a>
+                     </div>
+                  </div>
+                  <div class="clearfix"></div>
+               </div>
+            </div> -->
+            <div class="row" ng-show="isLoading">
+               <div class="col-lg-12 loadingWrapper">
+                  <div class="spinner">
+                      <div class="rect1"></div>
+                      <div class="rect2"></div>
+                      <div class="rect3"></div>
+                      <div class="rect4"></div>
+                      <div class="rect5"></div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="card-body" ng-show="!isLoading">
+               <table class="table align-items-center listTable customer_tbl">
+                  <thead class="">
+                     <tr class="headerTh">
+                        <th width="30%;">Customer Name</th>
+                        <th>Contact Number</th>
+                        <th>Total Orders Amount</th>
+                        <th class="text-right">Total Delivered Orders</th>
+                     </tr>
+                  </thead>
+                  <tbody class="list">
+                     <tr ng-if="(userList.length <= 0) && !isLoading">
+                        <td colspan="6" class="text-center">No Users Found</td>
+                     </tr>
+                     <tr ng-repeat="user in filterBrands = (userList | filter: search_str)" ng-if="userList.length > 0 && !isLoading">
+                        <td scope="row" class="name" style="white-space: normal;">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                 <span class="mb-0 text-sm text-capitalize">
+                                    <span ng-if="user.name"><a href="orders/all/{{toBase64(user.contact)}}"><strong>{{user.name}}</strong></a></span>
+                                 </span>
+                              </div>
+                           </div>
+                        </td>
+                        <td scope="row" class="name geeks">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                 <span class="mb-0 text-sm">
+                                    <a href="orders/all/{{toBase64(user.contact)}}">{{user.contact}}</a>
+                                 </span>
+                              </div>
+                           </div>
+                        </td>
+
+                         <td scope="row" class="name geeks">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                 <span class="mb-0 text-sm">
+                                   <a href="orders/all/{{toBase64(user.contact)}}"> ₹ {{user.grand_total_sum}}</a>
+                                 </span>
+                              </div>
+                           </div>
+                        </td>
+
+                        <td scope="row" class="name text-right">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                 <span title="View Orders" class="mb-0 text-sm">
+                                   <a class="order_icon" href="orders/all/{{toBase64(user.contact)}}"><strong>{{user.total_orders}}</strong></a>
+                                 </span>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <div class="text-center">
+                  <paging page="currentPage" page-size="page_limit" total="total_records" show-prev-next="true" show-first-last="true" hide-if-empty="total_records <= ((currentPage)*page_limit)" paging-action="loadUsers(page-1)" class="pull-right"></paging>
+              </div>
+            </div>
+         </div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+</div>

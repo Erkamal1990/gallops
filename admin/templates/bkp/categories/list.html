@@ -1,0 +1,204 @@
+<style type="text/css">    
+.filterRow ul li { 
+  list-style: none;
+}
+.filterRow li {
+  display: inline-block;
+}
+.logo{
+   width: 45px;
+   display: inline-block;
+   margin: 0 10px;
+}
+.logo>img{
+   max-width: 100%;
+   border-radius: 5px;
+}
+</style>
+<!-- <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+   <span class="mask bg-gradient-primary opacity-8"></span>    
+   <div class="container-fluid d-flex align-items-center">
+      <div class="row">
+         <div class="col-lg-12">
+            <h1 class="display-3 text-white">{{page_title}}</h1>
+         </div>
+      </div>
+   </div>
+</div> -->
+<div class="container-fluid">
+   <div class="row">
+      <div class="mb-4 col-sm-12">
+         <div class="row">
+            <div class="col-xl-3 col-sm-4">
+               <h4 class="green text-sm m-0">{{page_title}}</h4>
+
+            </div>
+         </div>
+      </div>
+
+      <div class="mb-3 col-sm-12">
+        <div class="row">
+          <div class="col-sm-3">
+             <div class="searchBox">
+                <input class="text-sm" ng-model="search_obj.search" placeholder="Search Category" name="srch-term" id="srch-term" type="text" autocomplete="off" ng-keyup="loadCategory()">
+                <span class="searchIcon"><i class="fa fa-search"></i></span>
+             </div>
+          </div>
+          <div class="col-sm-3">
+            
+          </div>
+          <div class="col-sm-2"></div>
+          
+          <div class="col-sm-4">
+            <div class="text-right">
+              <div class="dropdown">
+                  <a class="actionButton filterBtn" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                     <span class="text-capitalize">{{filter_text}}</span>&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                     <span class="dropdown-item" ng-click="filterStatus('')">
+                        All
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('1')">
+                        Active
+                     </span>
+                     <span class="dropdown-item" ng-click="filterStatus('0')">
+                        Inactive
+                     </span>
+                  </div>
+               </div>
+
+               <div class="dropdown">
+                  <a class="actionButton filterBtn" href="categories/add"> 
+                     <span class="text-capitalize">Add New</span>
+                  </a>
+               </div>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 order-xl-12 mb-12 mb-xl-0">
+         <div class="card shadow">
+           <!--  <div class="card-header border-0">
+               <div class="row">
+                  <div class="col-xl-3 col-md-4">
+                     <div class="input-group input-group-sm">
+                        <input class="form-control pull-right" ng-model="search_obj.search" placeholder="Search product" name="srch-term" id="srch-term" type="text" autocomplete="off" ng-keyup="loadItems()">
+                        <div class="input-group-btn"> 
+                          <button type="submit" ng-click="loadItems()" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xl-4 col-md-4">
+                      
+                  </div>
+                  <div class="col-xl-5 col-md-4">
+                     <div class="text-right">
+                      <a class="btn btn-icon btn-3 btn-primary" href="food_items/add/{{restaurant_id}}">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                        <span class="">Add New</span>
+                      </a>
+                     </div>
+                  </div>
+                  <div class="clearfix"></div>
+
+
+                <div class="col-sm-4">
+                  <br/>
+                  <div class="">
+                    <select name="menu_id" name="menu_id" ng-model="search_obj.menu_id" class="form-control form-control-alternative" ng-change="loadItems()">
+                        <option value="">Select Menu Category</option>                        
+                        <option value="{{restaurant.category_id}}" ng-repeat="restaurant in restaurantCategoryList">{{restaurant.category}}</option>                        
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <br/>
+                    <div class="filterRow">
+                          <ul class="flex" style="padding-left: 0;margin-top: 10px;">
+                              <li style="margin-right: 15px;">
+                                  <div class="custom-control custom-radio"> <input type="radio" id="all" ng-click="loadItems()" name="status" ng-model="search_obj.status" value="" class="custom-control-input"> <label class="custom-control-label" for="all">All</label> </div>
+                              </li>
+                              <li style="margin-right: 15px;">
+                                  <div class="custom-control custom-radio"> <input type="radio" id="active" ng-click="loadItems()" name="status" ng-model="search_obj.status" value="1" class="custom-control-input"> <label class="custom-control-label" for="active">Active</label> </div>
+                              </li>
+                              <li>
+                                  <div class="custom-control custom-radio"> <input type="radio" id="inactive" ng-click="loadItems()" name="status" ng-model="search_obj.status" value="0" class="custom-control-input"> <label class="custom-control-label" for="inactive">Inactive</label> </div>
+                              </li>
+                          </ul>
+                    </div>
+                </div>
+                    
+               </div>
+            </div> -->
+            <div class="card-body">
+               <table class="table align-items-center listTable">
+                  <thead class="">
+                     <tr>
+                        <th>Category</th>                        
+                        <th width="100px" class="text-right" scope="col">Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody class="list">
+                     <tr ng-if="(categoryList.length < 1 || filterBrands.length == 0) && !isLoading">
+                        <td colspan="6" class="text-center">No categories found</td>
+                     </tr>
+                     <tr ng-repeat="category in filterBrands = (categoryList | filter: search_str)" ng-if="categoryList.length > 0 && !isLoading">
+                        <td scope="row" class="name">
+                           <div class="media align-items-center">
+                              <div class="media-body">
+                                <span class="badge badge-dot" ng-if="category.status == 0">
+                                  <i class="bg-warning"></i>
+                                </span> 
+                                <span class="badge badge-dot" ng-if="category.status == 1">
+                                  <i class="bg-success"></i>
+                                </span>
+                                <span class="mb-0 text-md">
+                                  <span class="logo">
+                                     <img src="{{category.icon}}" />
+                                  </span>
+                                  <strong>{{category.name}}</strong>
+                                </span>
+                              </div>
+                           </div>
+                        </td>
+                        <td class="text-right">
+                           <div class="dropdown">
+                              <a class="actionButton accepted" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                <span class="text-capitalize">Action</span>&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+                              </a>                                        
+                              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                 <a class="dropdown-item" ng-if="category.status == 1" ng-click="changeStatus(category.category_id, $index)" href="javaScript:void(0)">
+                                  <span class="badge badge-dot"> 
+                                    <i class="bg-warning"></i> 
+                                   </span> Take Offline
+                                 </a>
+                                 <a class="dropdown-item" ng-if="category.status == 0" ng-click="changeStatus(category.category_id, $index)" href="javaScript:void(0)">
+                                  <span class="badge badge-dot"> <i class="bg-success"></i> </span> Take Online
+                                 </a>                                            
+                                 <hr style="margin: 5px auto;" />
+                                 <a class="dropdown-item" href="categories/update/{{toBase64(category.category_id)}}">
+                                  <i class="fa fa-edit"></i> Edit
+                                 </a>
+                                 <!-- <a class="dropdown-item" href="javaScript:void(0)" ng-click="makeDuplicate(product.category_id)">
+                                  <i class="fa fa-file"></i> Make Duplicate
+                                 </a> -->
+                                 <!-- <a class="dropdown-item" href="offers/{{restaurant_id}}/{{toBase64(product.category_id)}}">
+                                  <i class="fa fa-tag"></i> Offers
+                                 </a> -->
+                                 <a class="dropdown-item" href="javaScript:void(0)" ng-click="remove(category.category_id, $index)">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>Delete
+                                 </a>                                        
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+</div>

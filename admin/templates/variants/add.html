@@ -1,0 +1,145 @@
+<style type="text/css">
+    .uploadedImages{
+        height: 100px;
+        width: 100%;
+        margin:0 0 15px 0;
+        border: solid 1px #ddd;
+        float: left; 
+    }
+    .uploadedImages img{
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+    .card .table td{
+        padding: 10px 5px;
+    }
+    .table.variationTable .form-control{
+        padding: 8px 8px;
+        height: 45px;
+    }
+    .table.variationTable .form-group{
+        margin-bottom: 10px;
+    }
+    .variationList{
+        width: 100%;
+        float: left;
+    }
+    .variationList{
+        padding: 0;
+    }
+    .variationList>li{
+        display: inline-block;
+        margin:0 25px 5px 0; 
+    }
+
+</style>
+<div class="container-fluid">
+    <div class="row">
+
+         <div class="mb-4 col-sm-12">
+            <div class="row">
+                <div class="col-xl-3 col-sm-4">
+                    <h4 class="green text-sm m-0">{{page_title}}</h4>
+                </div>
+            </div>
+        </div> 
+
+        <div class="col-xl-12">          
+            <div class="card shadow">            
+                <div class="card-body">              
+                    <form role="form" name="item_form" id="item_form" ng-validate="validateform" ng-submit="saveItem(item_form)">
+                        <div class="mb-4"></div>
+                        <div class=""> 
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="modal_id">Modal</label>
+                                        <select ng-model="itemObj.modal_id" class="form-control form-control-alternative" name="modal_id" id="modal_id" required="">
+                                            <option value="1">Active</option>                        
+                                            <option value="2">Inactive</option>                        
+                                        </select>                      
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="name">Name</label>
+                                        <input type="text" id="name" name="name" class="form-control form-control-alternative" ng-model="itemObj.name" required="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="ex_showroom_price">Ex-Showroom Price</label>
+                                        <input type="text" id="ex_showroom_price" name="ex_showroom_price" class="form-control form-control-alternative" ng-model="itemObj.ex_showroom_price" required="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="rto">RTO</label>
+                                        <input type="text" id="rto" name="rto" class="form-control form-control-alternative" ng-model="itemObj.rto" required=""/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="insurance">Insurance</label>
+                                        <input type="text" id="insurance" name="insurance" class="form-control form-control-alternative" ng-model="itemObj.insurance" required="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="others">Others</label>
+                                        <input type="text" id="others" name="others" class="form-control form-control-alternative" ng-model="itemObj.others" required="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="optional_price">Optional Price</label>
+                                        <input type="text" id="optional_price" name="optional_price" class="form-control form-control-alternative" ng-model="itemObj.optional_price" required="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="fuel_type">Fuel Type </label>
+                                        <select ng-model="itemObj.fuel_type" class="form-control form-control-alternative" name="fuel_type" id="fuel_type" required="">
+                                            <option value="1">Petrol</option>                        
+                                            <option value="2">Diesel</option>                        
+                                            <option value="3">CNG</option>                        
+                                        </select>                      
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="color_id">Colors </label>
+                                        <select ng-model="itemObj.color_id" class="form-control form-control-alternative" name="color_id" id="color_id" required="">
+                                            <option value="1">Gray</option>                        
+                                            <option value="2">Black</option>                        
+                                            <option value="3">Red</option>                        
+                                        </select>                      
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="row">                
+                                <div class="col-lg-12">
+                                    <div class="text-left">
+                                        <button ng-class="{'disabled':saving == true}" type="submit" class="btn btn-primary my-4 px-lg-5">
+                                            Save &nbsp; <i class="fas fa-spinner fa-spin" ng-if="saving" class="gif_loader"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .padding_rev_15 {
+        margin-left: -30px;
+        margin-right: -30px;
+    }
+</style>

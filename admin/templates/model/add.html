@@ -1,0 +1,99 @@
+<style type="text/css">
+    .uploadedImages{
+        height: 100px;
+        width: 100%;
+        margin:0 0 15px 0;
+        border: solid 1px #ddd;
+        float: left; 
+    }
+    .uploadedImages img{
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+    .card .table td{
+        padding: 10px 5px;
+    }
+    .table.variationTable .form-control{
+        padding: 8px 8px;
+        height: 45px;
+    }
+    .table.variationTable .form-group{
+        margin-bottom: 10px;
+    }
+    .variationList{
+        width: 100%;
+        float: left;
+    }
+    .variationList{
+        padding: 0;
+    }
+    .variationList>li{
+        display: inline-block;
+        margin:0 25px 5px 0; 
+    }
+
+</style>
+<div class="container-fluid">
+    <div class="row">
+
+         <div class="mb-4 col-sm-12">
+            <div class="row">
+                <div class="col-xl-3 col-sm-4">
+                    <h4 class="green text-sm m-0">{{page_title}}</h4>
+                </div>
+            </div>
+        </div> 
+
+        <div class="col-xl-12">          
+            <div class="card shadow">            
+                <div class="card-body">              
+                    <form role="form" name="item_form" id="item_form" ng-validate="validateform" ng-submit="saveItem(item_form)">
+                        <div class="mb-4"></div>
+                        <div class=""> 
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="name">Model Name</label>
+                                        <input type="text" id="name" name="name" class="form-control form-control-alternative" ng-model="itemObj.name" required="" placeholder="Enter item name" />
+                                    </div>
+                                </div> 
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="startPrice">Start Price</label>
+                                        <input type="text" id="startPrice" name="startPrice" class="form-control form-control-alternative" ng-model="itemObj.startPrice" required="" placeholder="Enter Start Price" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="endPrice">End Price</label>
+                                        <input type="text" id="endPrice" name="endPrice" class="form-control form-control-alternative" ng-model="itemObj.endPrice" required="" placeholder="Enter End Price" />
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="row">                
+                                <div class="col-lg-12">
+                                    <div class="text-left">
+                                        <button ng-class="{'disabled':saving == true}" type="submit" class="btn btn-primary my-4 px-lg-5">
+                                            Save &nbsp; <i class="fas fa-spinner fa-spin" ng-if="saving" class="gif_loader"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .padding_rev_15 {
+        margin-left: -30px;
+        margin-right: -30px;
+    }
+</style>

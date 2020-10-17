@@ -1,0 +1,105 @@
+<div class="main-content">
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
+        <div class="container px-4">
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
+            <div class="collapse navbar-collapse" id="navbar-collapse-main">
+                <!-- Collapse header -->
+                <div class="navbar-collapse-header d-md-none">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+                            <a href="../index.html">
+                                <img src="../assets/img/brand/blue.png">
+                            </a>
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+    <!-- Header -->
+    <div class="header py-5 py-lg-5">
+        <!-- <div class="container">
+            <div class="header-body text-center mb-7">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        <h1 class="text-white">Welcome!</h1>
+                        
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="separator separator-bottom separator-skew zindex-100">
+            <!-- <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+            </svg> -->
+        </div>
+    </div>
+    <style type="text/css">
+        
+        .input-group>.form-control:not(:last-child), .input-group>.custom-select:not(:last-child){
+             border-top-right-radius: 6px; 
+             border-bottom-right-radius: 6px; 
+        }
+        label.error{
+            position: absolute;
+            right: 2px;
+            top: 2px;
+        }
+    </style>
+    <!-- Page content -->
+    <div class="container pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-7">
+                <div class="card shadow border-0">
+                    <div class="card-body  px-lg-5 py-lg-6" style="background:#fff; border-radius: 10px; padding-bottom: 30px !important;padding-top: 30px !important;">
+                        <div class="text-center text-muted mb-4">
+                            <!-- <small>Or sign in with credentials</small> -->
+                            <a class="navbar-brand form-group" href="#"><img width="120" src="assets/img/logo.jpeg" alt="Logo" /></a>
+                            <br/>
+
+                            <div class="text-center responseObj" ng-if="loginResponse.message != ''">
+                                <span ng-class="{'error' : loginResponse.success == 0, 'success' : loginResponse.success == 1}">{{loginResponse.message}}</span>
+                            </div>
+
+                        </div>
+                        <form role="form" name="signin_form" id="signin_form" ng-validate="validateLoginForm" ng-submit="submitLogin(signin_form)">
+                            <div class="form-group mb-3">
+                                <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                    </div>
+                                    <input type="text" name="email" id="email" ng-model="admindata.email" class="form-control form-control-new" required="" autocomplete="off" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                    </div>
+                                    <input type="password" name="password" id="password" ng-model="admindata.password" class="form-control form-control-new" required="" autocomplete="off" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button ng-class="{'disabled':isSubmitting == true}" type="submit" class="btn btn-primary my-4 mx-6 px-lg-5 btn-gradient">
+                                    {{LoginText}} <div ng-if="isSubmitting" class="fas fa-spinner fa-pulse"></div>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    </footer>
+</div>

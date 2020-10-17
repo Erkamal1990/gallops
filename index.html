@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="gallopsHyundai">
+	<head>
+		<title>Gallops Hyundai</title>
+		<base href="/gallops/">
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html">
+		
+		<link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<meta name="description" content="" />
+  		<meta name="keywords" content="" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<link rel="stylesheet" type="text/css" href="assets/css/angular-material.min.css?">
+        <link rel="stylesheet" type="text/css" href="assets/css/animate.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/onepage-scroll.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/swiper.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/reset.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/media_query.css" />
+        
+		<script type="text/javascript" src="assets/js/jquery.js"></script>
+		<script type="text/javascript" src="assets/js/angular.min.js?ver=0.0.1"></script>
+		<script type="text/javascript" src="assets/js/angular-validate.min.js"></script>
+		<script type="text/javascript" src="assets/js/angular-ui-swiper.min.js?ver=0.0.1"></script>
+		<script type="text/javascript" src="assets/js/jquery-validate.min.js"></script>
+		<script type="text/javascript" src="assets/js/angular-route.js"></script>
+		<script type="text/javascript" src="assets/js/angular-sanitize.min.js"></script>
+		<script type="text/javascript" src="assets/js/angular-material.min.js?ver=0.0.1"></script>
+		<script type="text/javascript" src="assets/js/swiper.min.js?ver=0.0.1"></script>
+		<script type="text/javascript" src="assets/js/angular-swiper.js"></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js'></script>
+		<script type="text/javascript" src="app.js?ver=0.0.1"></script>
+
+	</head>
+	<body ng-controller="MainController" >
+		<div ng-include="'templates/include/header.html'"></div>
+		<ng-view ng-show="loadSite"></ng-view>
+		<div ng-include="'templates/include/footer.html'"></div>
+		<script type="text/javascript">
+	        $(document).ready(function (e) {
+	            wow = new WOW({
+	                boxClass:     'wow',      // default
+	                animateClass: 'animated', // default
+	                offset:       0,          // default
+	                mobile:       true,       // default
+	                live:         true        // default
+	            })
+	        	wow.init();
+	        })
+	    </script>
+	</body>
+</html>

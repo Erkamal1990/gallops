@@ -1,0 +1,103 @@
+<style type="text/css">
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance:textfield;
+    }
+</style>
+
+<div class="container-fluid">      
+    <div class="row">      
+        <div class="mb-4 col-sm-12">
+            <div class="row">
+                <div class="col-xl-3 col-sm-4">
+                    <h4 class="green text-sm m-0">{{page_title}}</h4>
+                </div>
+            </div>
+        </div>           
+        <div class="col-xl-12">          
+            <div class="card shadow">            
+                <div class="card-body">
+
+                    <form role="form" name="bulk_upload_form" id="bulk_upload_form" ng-validate="vaildateImport" ng-submit="importProducts(bulk_upload_form)">
+                        <div class="mt-4">
+                            <div class="text-left mb-4">
+                                <a href="{{frontUrl}}api/export/get_product_import_sheet.php">Blank Product Upload Sheet</a>
+                            </div> 
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Products Sheet<sup>*</sup></label>
+                                        <div style="width:100%">
+                                            <label class="form-control-label"></label>
+                                            <label class="btn btn-primary" for="products_sheet">Select Products Sheet</label>
+                                            <input type="file" id="products_sheet" name="products_sheet" class="display_none" type="file" class="display_none" ngf-select="" ng-model="importProductsObj.products_sheet" ngf-pattern="'.xls,.xlsx'" accept=".xls,.xlsx" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Images Archive(.zip)<sup>*</sup></label>
+                                        <div style="width:100%">
+                                            <label class="form-control-label"></label>
+                                            <label class="btn btn-primary" for="products_zip">Select Zip</label>
+                                            <input type="file" id="products_zip" name="products_zip" class="display_none" type="file" class="display_none" ngf-select="" ng-model="importProductsObj.products_zip" ngf-pattern="'.zip'" accept=".zip" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="">
+                                        <div class="form-group">
+                                            <div style="width:100%; font-size: 11px;">
+                                                <p style="width:100%; font-size: 14px; color: black; margin: 2px 0;">Notes :</p>
+                                                <p style="width:100%; font-size: 14px; color: black; margin: 2px 0;">1) Upload file should be Microsoft Excel 97-2003 Worksheet (.xls) Format only </p>
+                                                <p style="width:100%; font-size: 14px; color: black; margin: 2px 0;">2) Sheet column format must match sample sheet provided</p>
+                                                <p style="width:100%; font-size: 14px; color: black; margin: 2px 0;">3) Don't remove first row from sample sheet.</p>
+                                                <p style="width:100%; font-size: 14px; color: black; margin: 2px 0;">4) Don't fill blank values / Null values in required columns.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="">
+                                        <div class="form-group text-left">
+                                            <button type="submit" class="btn btn-primary" ng-disabled="is_importing">
+                                                <span ng-if="!is_importing">Import</span>
+                                                <span ng-if="is_importing">Importing...</span>
+                                            </button>
+                                        </div>
+                                    </div><div class="clearfix"></div>
+
+                                    <div class="col-lg-12" >
+                                        <p style="color: red;" ng-if="error_message" ng-bind-html="error_message"></p>
+                                        <p style="color: green;" ng-if="success_message" ng-bind-html="success_message"></p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

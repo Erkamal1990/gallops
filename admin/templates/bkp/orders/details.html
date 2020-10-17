@@ -1,0 +1,596 @@
+<div class="formContent" id="printDiv" style="display:none;width: 100%;max-width: 400px;">
+   <div style="width: 100%;" ng-include="'templates/orders/print_bill.html?v=0.1'"></div>
+</div>
+<style type="text/css">
+    .detailsBtn>li{
+        display: inline-block;
+        margin:0 0 0 5px;
+    }
+</style>
+<!-- <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+      <span class="mask bg-gradient-primary opacity-8"></span>
+      <div class="container-fluid d-flex align-items-center">
+        <div class="row">
+          <div class="col-lg-12">
+            <h1 class="display-3 text-white">{{page_title}}</h1>
+          </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="container-fluid">
+      <div class="row">
+        <div class="mb-2 col-sm-12">
+         <div class="row">
+            <div class="col-sm-5">
+                <h2 class="pull-left green">#{{order.order_number}} <small>| {{order.order_date}}</small></h2>
+            </div>
+            <div class="col-sm-4">
+                <h4 class="pull-left green">
+                    <span ng-if="order.status == 'placed'">Order Placed</span>
+                    <span ng-if="order.status == 'accepted'">Order Accepted</span>
+                    <span ng-if="order.status == 'cancelled'">Order Cancelled</span>
+                    <span ng-if="order.status == 'delivered'">Order Delivered</span>
+                    <span ng-if="order.status == 'pickedup'">Order Pickedup</span>
+                </h4>
+            </div>
+            
+            <div class="col-sm-3">
+               <div class="dropdown pull-right">
+                  <div class="text-right">
+                        <ul class="detailsBtn">
+                            <li ng-if="order.status && order.status == 'placed' && order.address.address_type != 'dinning'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="changeStatus('cancelled',order,'')">
+                                    <span class="btn-inner--icon"><i class="fa fa-times"></i></span>
+                                    <span class="">Cancel Order</span>
+                                </a>    
+                            </li>
+                            <li ng-if="order.status && order.status == 'placed' && order.address.address_type != 'dinning'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="changeStatus('accepted',order,'')">
+                                    <span class="btn-inner--icon"><i class="fa fa-check"></i></span>
+                                    <span class="">Accept</span>
+                                </a>    
+                            </li>
+                            <li ng-if="order.status && order.status == 'accepted' && order.address.address_type != 'dinning'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="changeStatus('pickedup',order,'')">
+                                    <span class="btn-inner--icon"><i class="fa fa-check"></i></span>
+                                    <span class="">Picked up</span>
+                                </a>    
+                            </li>
+                            <!-- <li ng-if="order.status && order.status == 'pickedup'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="changeStatus('delivered',order,'')">
+                                    <span class="btn-inner--icon"><i class="fa fa-check"></i></span>
+                                    <span class="">Delivered</span>
+                                </a>    
+                            </li> -->
+                            <li ng-if="order.status && order.status == 'accepted' && order.address.address_type != 'dinning'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="changeStatus('delivered',order,'')">
+                                    <span class="btn-inner--icon"><i class="fa fa-check"></i></span>
+                                    <span class="">Delivered</span>
+                                </a>    
+                            </li>
+
+                            <li ng-if="order.status && order.status == 'delivered'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="printPage(order.order_id)">
+                                    <span class="btn-inner--icon"><i class="fa fa-file"></i></span>
+                                    <span class="">Print Bill</span>
+                                </a>    
+                            </li>
+                        </ul>
+                    </div><div class="clearfix"></div>
+               </div>
+            </div>
+         </div>
+        </div>
+
+        <div class="col-xl-12 order-xl-12 mb-12 mb-xl-0">
+            <div class="card shadow">
+                <!-- <div class="card-header border-0">
+                	<h2 class="pull-left">#{{order.order_number}} <small>| {{order.order_date}}</small><br/>
+                		<span ng-if="order.status == 'placed'">Order Placed</span>
+                        <span ng-if="order.status == 'accepted'">Order Accepted</span>
+                        <span ng-if="order.status == 'cancelled'">Order Cancelled</span>
+                        <span ng-if="order.status == 'delivered'">Order Delivered</span>
+                        <span ng-if="order.status == 'pickedup'">Order Pickedup</span>
+                	</h2>
+                	<div class="text-right">
+                        <ul class="detailsBtn">
+                            <li ng-if="order.status && order.status == 'placed'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="changeStatus('cancel',order.order_id)">
+                                    <span class="btn-inner--icon"><i class="fa fa-times"></i></span>
+                                    <span class="">Cancel Order</span>
+                                </a>    
+                            </li>
+                            <li ng-if="order.status && order.status == 'placed'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="changeStatus('accepted',order.order_id)">
+                                    <span class="btn-inner--icon"><i class="fa fa-check"></i></span>
+                                    <span class="">Accept</span>
+                                </a>    
+                            </li>
+                            <li ng-if="order.status && order.status == 'accepted'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="changeStatus('pickedup',order.order_id)">
+                                    <span class="btn-inner--icon"><i class="fa fa-check"></i></span>
+                                    <span class="">Picked up</span>
+                                </a>    
+                            </li>
+                            <li ng-if="order.status && order.status == 'pickedup'">
+                                <a class="btn btn-sm btn-primary" href="javascript:void(0)" ng-click="changeStatus('delivered',order.order_id)">
+                                    <span class="btn-inner--icon"><i class="fa fa-check"></i></span>
+                                    <span class="">Delivered</span>
+                                </a>    
+                            </li>
+                        </ul>
+                    </div><div class="clearfix"></div>
+                </div> -->
+                <div class="mb-4"></div>
+                <div class="card-body">
+                	<div class="row">
+                		<div class="col-xl-6 col-md-6">
+                			<div class="card">
+                				<div class="card-header card-header-new">
+                					<h4>Order Details</h4>
+                				</div>
+                				<div class="card-body card-body-new">
+                					<div class="mt5">
+                						<div class="left_wrap">
+                							<p class="font_14 mb-0">Order #</p>
+                						</div>
+                						<div class="mid_wrap">
+                							:
+                						</div>
+                						<div class="right_wrap">
+                						    <p class="font_14 mb-0 "><strong>{{order.order_number}}</strong></p>
+                						</div>
+                						<div class="clearfix"></div>
+                					</div>
+                					
+                					<div class="mt5">
+                						<div class="left_wrap">
+                							<p class="font_14 mb-0">Customer</p>
+                						</div>
+                						<div class="mid_wrap">
+                							:
+                						</div>
+                						<div class="right_wrap">
+                						    <p class="font_14 mb-0">
+                                                <strong>
+                                                    <span ng-if="order.address.name">{{order.address.name}}<br/></span>                  
+                                                </strong>
+                    						    <strong ng-if="order.address.contact"><i class="fa fa-phone"></i> {{order.address.phonecode}} {{order.address.contact}}<br/> </strong>
+                    						    <strong ng-if="order.address.email"><i class="fa fa-envelope"></i> {{order.address.email}}</strong>
+                                            </p>
+                						</div>
+                						<div class="clearfix"></div>
+                					</div>
+                					<div class="mt5">
+                						<div class="left_wrap">
+                							<p class="font_14 mb-0">Total Amount</p>
+                						</div>
+                						<div class="mid_wrap">
+                							:
+                						</div>
+                						<div class="right_wrap">
+                						    <p class="font_14 mb-0"><strong>₹ {{order.grand_total}} </strong> <span ng-if="order.tips > 0">(+ ₹ {{order.tips}} Tips)</span></p>
+                                        </div>
+                						<div class="clearfix"></div>
+                					</div>
+                					<div class="mt5">
+                						<div class="left_wrap">
+                							<p class="font_14 mb-0">Payment Method</p>
+                						</div>
+                						<div class="mid_wrap">
+                							:
+                						</div>
+                						<div class="right_wrap">
+                						    <p class="font_14 mb-0"><strong>{{order.payment_method}}</strong> 
+                                                <span ng-if="order.payment == 'Pending'" class="text-danger">({{order.payment}})</span>
+                                                <span ng-if="order.payment != 'Pending'" class="text-success">({{order.payment}})</span>
+                                            </p>
+                						</div>
+                						<div class="clearfix"></div>
+                					</div>
+                                    <div class="mt5" ng-if="order.payment_via">
+                                        <div class="left_wrap">
+                                            <p class="font_14 mb-0">Payment Via</p>
+                                        </div>
+                                        <div class="mid_wrap">
+                                            :
+                                        </div>
+                                        <div class="right_wrap">
+                                            <p class="font_14 mb-0 text-capitalize"><strong>{{order.payment_via}}</strong> </p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="mt5" ng-if="order.shipped_on">
+                                        <div class="left_wrap">
+                                            <p class="font_14 mb-0">Shipped On</p>
+                                        </div>
+                                        <div class="mid_wrap">
+                                            :
+                                        </div>
+                                        <div class="right_wrap">
+                                            <p class="font_14 mb-0"><strong>{{order.shipped_on}}</strong></p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="mt5" ng-if="order.delivery_timestamp">
+                                        <div class="left_wrap">
+                                            <p class="font_14 mb-0">Delivered On</p>
+                                        </div>
+                                        <div class="mid_wrap">
+                                            :
+                                        </div>
+                                        <div class="right_wrap">
+                                            <p class="font_14 mb-0"><strong>{{order.delivery_timestamp}}</strong></p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                    <div class="mt5" ng-if="order.cancelled_on && order.status == 'Cancelled'">
+                                        <div class="left_wrap">
+                                            <p class="font_14 mb-0">Cancelled On</p>
+                                        </div>
+                                        <div class="mid_wrap">
+                                            :
+                                        </div>
+                                        <div class="right_wrap">
+                                            <p class="font_14 mb-0"><strong>{{order.cancelled_on}}</strong></p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                				</div>
+                			</div>
+                		</div>
+                		<div class="col-xl-6 col-md-6">
+                			<div class="card">
+                				<div class="card-header card-header-new">
+                					<h4>Delivery Details</h4>
+                				</div>
+                				<div class="card-body card-body-new">
+                                    <p class="mt5 font_14 mb-0">
+                    					<strong ng-if="order.address.name">{{order.address.name}}<br /></strong>
+                    					<span ng-if="order.address.address_type">Type : {{order.address.address_type}},<br /></span>
+                    					<span ng-if="order.address.contact"><strong>Phone</strong> : {{order.address.contact}}<br/></span>
+                                        <span ng-if="order.address.building_area"><strong>Building/Area</strong> : {{order.address.building_area}}<br/></span>
+                                        <span ng-if="order.address.landmark_zipcode"><strong>Landmark/Pincode</strong> : {{order.address.landmark_zipcode}}<br/></span>
+                    					<span ng-if="order.address.delivery_instruction">Delivery Note : {{order.address.delivery_instruction}},<br /></span>
+                                        <span ng-if="order.address.car_number">Car No : {{order.address.car_number}},<br /></span>
+                                        <span ng-if="order.address.table_number">Table No : {{order.address.table_number}}<br /></span>
+                                    </p>
+                				</div>
+                			</div>
+                		</div>
+                		<div class="clearfix"></div>
+                	</div>
+
+
+                	<div class="row" style="margin-top: 20px;" ng-if="order.order_items.length > 0">
+                        <div class="col-xl-12 col-md-12">
+	            			<div class="card">
+	            				<div class="card-header card-header-new">
+                                    <h4 class="pull-left">Order Items</h4>
+                                    <a class="pull-right" ng-if="order.undeliverd_count > 0" ng-click="markAsDeliveredItemAll(item.delivered_on_table)" href="javascript:void(0);">
+                                        <span class="btn btn-sm btn-success">Mark All As Delivered</span>        
+                                    </a>
+                                    <div class="clearfix"></div>
+	            				</div>
+	            				<div class="card-body">
+				                    <table class="table align-items-center listTable">
+				                      <thead class="">
+				                        <tr>
+				                            <th style="width: 40%">Product</th>
+				                            <th style="width: 30%">Delivery</th>
+				                            <th style="width: 15%" class="text-right">Unit Price</th>
+				                            <th style="width:15%" class="text-right">Total</th>
+				                        </tr>
+				                      </thead>
+				                      <tbody class="list">
+				                        <tr ng-repeat="item in order.order_items">
+				                            <td scope="row" class="name" style="white-space: normal;">
+			                            		<div class="item_img_wrap" style="float: left;">
+			                            			<a href="javascript:void(0)"><img src="{{item.image}}" /></a>
+			                            		</div><br/>
+			                            		<div class="item_content">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p class="text-capitalize" href="javascript:void(0)"><strong>{{item.product_name | lowercase}}</strong><span ng-if="item.is_jain == '1'"> - Jain</span></p>
+                                                            <p ng-if="order.combo_products_items.length > 0"><strong><small>Combo Items:</small><br/>(<small ng-repeat="combo_products_item in order.combo_products_items"> {{combo_products_item.name}}<span ng-if="order.combo_products_items.length != $index+1"> | </span></small>)</strong></p>
+                                                        </div>
+                                                    </div>
+			                             		 </div>                   
+			                             		 <div class="clearfix"></div>
+				                            </td>
+				                            <td style="white-space: normal;">
+				                            	<div class="item_content">
+				                            		<a ng-click="markAsDeliveredItem(item.order_item_id,item.delivered_on_table)" href="javascript:void(0);">
+                                                        <span class="btn btn-sm btn-danger" ng-if="item.delivered_on_table == 1">Mark As Pending</span>               
+                                                        <span class="btn btn-sm btn-success" ng-if="item.delivered_on_table == 0">Mark As Delivered</span>        
+                                                    </a>
+			                             		 </div>
+				                            </td>
+				                            
+				                            <td scope="row" class="name text-right">
+				                              <span class="mb-0">
+                                                <span>₹ {{item.item_price}} X {{item.quantity}}</span>
+                                              </span>
+				                            </td>
+				                            <td scope="row" class="name text-right">
+				                                <span class="mb-0" >
+                                                    <span>₹ {{item.total_price}}</span>
+                                                </span>
+				                            </td>
+				                        </tr>
+				                      </tbody>
+				                    </table>
+		                   		</div>
+		                   	</div>
+	                   	</div>
+                		<div class="clearfix"></div>
+	                </div>
+
+                   
+
+
+                    
+
+	                <div class="row" style="margin-top: 20px;">
+                		<div class="col-xl-8 col-md-6">
+                		</div>
+                		<div class="col-xl-4 col-md-6">
+                			<div class="card">
+                				<div class="card-header card-header-new border-0">
+                					<h3>Order Total</h3>
+                				</div>
+                				<div class="card-body card-body-new">
+                					<div class="row">
+	                					<table class="table">
+	                						<tr>
+	                							<th>
+	                								Subtotal
+	                							</th>
+	                							<td class="text-right">
+                                                    <span>₹ {{order.sub_total}}</span>
+	                							</td>
+	                						</tr>
+	                						<tr ng-if="order.cgst > 0">
+	                							<th>
+	                								@CGST(2.5%) 
+	                							</th>
+	                							<td class="text-right">
+	                								<span>₹ {{order.cgst}}</span>
+	                							</td>
+	                						</tr>
+                                            <tr ng-if="order.sgst > 0">
+                                                <th>
+                                                    @SGST(2.5%) 
+                                                </th>
+                                                <td class="text-right">
+                                                    <span>₹ {{order.sgst}}</span>
+                                                </td>
+                                            </tr>
+	                						
+	                						<tr ng-if="order.delivery_charge != '0'">
+	                							<th>
+	                								Delivery Charge
+	                							</th>
+	                							<td class="text-right">
+	                								<span>₹ {{order.delivery_charge}}</span>
+	                							</td>
+	                						</tr>
+	                						<tr>
+	                							<th>
+	                								Discount <span ng-if="order.coupon_code"><br />({{order.coupon_code}})</span>
+	                							</th>
+	                							<td class="text-right">
+	                								<span>₹ {{order.discount_amount}}</span>
+	                							</td>
+	                						</tr>
+                                            <tr ng-if="order.tips > 0">
+                                                <th>
+                                                    Tips
+                                                </th>
+                                                <td class="text-right">
+                                                    <span>₹ {{order.tips}}</span>
+                                                </td>
+                                            </tr>
+	                						<tr>
+	                							<th>
+	                								<strong>Total Payable</strong>
+	                							</th>
+	                							<td class="text-right">
+	                								<strong>
+                                                        <span ng-if="order.payment_method == 'Paypal'">${{order.usd_grand_total}}</span>
+                                                        <span ng-if="order.payment_method != 'Paypal'">₹ {{order.grand_total_with_tips}}</span>
+                                                    </strong>
+	                							</td>
+	                						</tr>
+	                					</table>
+                					</div>
+                				</div>
+                			</div>
+                		</div>
+                		<div class="clearfix"></div>
+                	</div>
+                 </div>   
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<!-- <div class="printableContent" id="print_invoice_div" style="width:100%;position:relative">
+    <img src="{{rootUrl}}assets/img/logo.png" style="max-height: 40px; position: absolute; top:20px;left:10px;z-index:9">
+    <div class="list-group-item" style="padding: 0;border: 1px solid #000;">
+        <div style="float: right;text-align:right;margin-top:20px;margin-bottom:50px;margin-right:20px;">
+            <strong style="font-size:18px;color:#000;">Tax Invoice/Bill of Supply/Cash Memo</strong><br />
+        </div>
+        <div style="clear:both"></div>
+        <div style="border-top:1px solid #000;border-bottom:1px solid #000;">
+            <div style="padding:15px;width:calc(49.5% - 30px);float: left;margin-right: 1%;">
+                <div class="" style="text-align: left; padding: 0px 0 0 0; clear: both;">
+                    <h4 style="margin: 0 0 10px 0;font-size:16px;color:#000;" ><b>Sold By</b></h4>
+                    <div class="">
+                        <p style="font-size:14px;color:#000;">
+                            <span>1215, 3rd floor, A59 Building,</span> <br/>
+                            <span>Veera Desai Road, Opp Dev Prestige,<br /></span>
+                            <span>Andheri West, Mumbai 400053, India<br /><br /></span>
+                            <span>Ph : 8879572587 | 9821694444<br /></span>
+                            <span>Email : info@myindianstitch.com<br /></span>
+                        </p>    
+                    </div>
+                </div>
+            </div>
+            <div style="padding:15px;width:calc(49.5% - 30px);float: left;text-align: right;">
+                <h4 style="margin: 0 0 10px 0;font-size:16px;color:#000;" ><b>Delivery Address</b></h4>
+                <div>
+                    <p style="font-size:14px;">
+                        <span style="text-transform:capitalize;">{{order.ship_to_name | lowercase}}</span> <br/>
+                        <span ng-if="order.delivery_landmark">{{order.delivery_landmark}}<br /></span>
+                        <span ng-if="order.delivery_address1">{{order.delivery_address1}}<br /></span>
+                        <span ng-if="order.delivery_address2">{{order.delivery_address2}}<br /></span>
+                        <span ng-if="order.delivery_address3">{{order.delivery_address3}}<br /></span>
+                        <span ng-if="order.delivery_city">{{order.delivery_city}}, {{order.delivery_state}} - {{order.delivery_zipcode}}, {{order.delivery_country}}</span>
+                    </p>    
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+        <div>
+            <div style="padding:15px;width:calc(49.5% - 30px);float: left;margin-right: 1%;">
+                 <strong class="">PAN No : </strong><span>N/A</span><br />
+                 <strong class="">GST No : </strong><span>N/A</span><br />
+                 <strong class="">Order ID : </strong><span>{{order.order_number}}</span><br />
+                 <strong class="">Order Date : </strong><span>{{order.order_date}}</span><br />
+             </div>
+             <div style="padding:15px;width:calc(49.5% - 30px);float: left;">
+                 <strong class="">Invoice No : </strong><span>{{order.invoice_number}}</span><br />
+                 <strong class="">Invoice Date : </strong><span style="font-size: 85%">{{order.invoice_date}}</span><br />
+                 <strong class="">Payment Method : </strong><span>{{order.payment_method}}</span><br />
+            </div>
+            <div style="clear: both;"></div>
+         </div>
+        <div class="" style="margin-top:0px;width:100%;float:left;">
+            <div style="margin-bottom:0">
+                <table class="table" style="width:100%;margin:0;padding:0;" cellspacing="0">
+                    <thead style="width:100%;margin:0;padding:0;">
+                        <tr style="border-bottom:1px solid #b7b7b7;padding:0px 0;line-height:25px;">
+                            <th  class="darkgray" width="2%" style="font-weight:500;text-align:center;padding:5px 0;line-height:25px;font-size:14px;border:1px solid #000;border-right:unset;-webkit-print-color-adjust: exact;background-color:#ddd;font-weight:600">SR. No</th>
+                            <th  class="darkgray" width="28%" style="font-weight:500;text-align:center;padding:5px 0;line-height:25px;font-size:14px;border:1px solid #000;border-right:unset;-webkit-print-color-adjust: exact;background-color:#ddd;font-weight:600">Description</th>
+                            <th  class="darkgray" width="10%" style="font-weight:500;text-align:center;padding:5px 0;line-height:25px;font-size:14px;border:1px solid #000;border-right:unset;-webkit-print-color-adjust: exact;background-color:#ddd;font-weight:600">Unit Price ₹</th>
+                            <th  class="darkgray" width="1%" style="font-weight:500;text-align:center;padding:5px 0;line-height:25px;font-size:14px;border:1px solid #000;border-right:unset;-webkit-print-color-adjust: exact;background-color:#ddd;font-weight:600">Qty</th>
+                            <th  class="darkgray" width="4%" style="font-weight:500;text-align:center;padding:5px 0;line-height:25px;font-size:14px;border:1px solid #000;-webkit-print-color-adjust: exact;background-color:#ddd;font-weight:600">Net Amount ₹</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                            <tr style="border-bottom:1px solid #b7b7b7;padding:0px 0;line-height:18px;" ng-repeat="item in order.suborders[0].items">
+                                <td style="padding:5px 0;line-height:18px;font-size:14px;text-align:center;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;">{{$index + 1}}</td>
+                                <td style="padding:5px 0;line-height:18px;font-size:14px;color:#000;border-bottom:1px solid #000;border-left:1px solid #000;">
+                                    <p style="margin:2px 0;text-transform: capitalize;"><strong>{{item.name | lowercase}}</strong></p>
+                                    <p style="margin:0px;line-height:12px;font-size:12px;">SKU : {{item.sku}}</p>
+
+                                    <p style="margin:0px;line-height:12px;font-size:12px;" ng-if="item.hsn_code">HSN Code : {{item.hsn_code}}</p>
+                                    <p style="margin:0px;line-height:12px;font-size:12px;" ng-if="item.options && item.options.length > 0">
+                                        <span ng-repeat="op in item.options"><span>{{op.attribute_name}}</span> : {{op.option_value}} <span ng-if="!$last"><br /> </span></span>
+                                    </p>
+                                </td>
+                                <td align="right" style="padding:5px;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;"> {{item.base_price}}</td>
+                                <td align="center" style="padding:5px 0;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;">{{item.quantity | number}}</td>
+                                <td align="right" style="padding:5px 0;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;border-right:1px solid #000;">
+                                   <span ng-if="item.refunded_amount > 0 && item.is_returned == '1'">-</span> {{item.total_price}}
+                                </td>
+                                
+                            </tr>
+
+                            <tr style="border-bottom:1px solid #b7b7b7;padding:0px 0;line-height:18px;">
+                                <td style="text-align:left;padding:2px;line-height:18px;font-size:14px;border-left:1px solid #000;color:#000;">
+                                </td>
+                                <td style="text-align:left;padding:2px 5px;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;">
+                                   Shipping Charges : 
+                                </td>
+                                <td align="right" style="padding:5px;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;"> {{order.shipping_amount | currency:""}}</td>
+                                 <td align="center" style="padding:5px 0;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;">&nbsp;</td>
+                                 <td align="right" style="padding:5px 0;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;border-right:1px solid #000;">
+                                    {{order.shipping_amount | currency:""}}
+                                 </td>
+                            </tr>
+                            
+                            <tr style="border-bottom:1px solid #b7b7b7;padding:0px 0;line-height:18px;" ng-if="order.payment_method == 'Cash On Delivery'">
+                                <td style="text-align:left;padding:2px;line-height:18px;font-size:14px;border-bottom:1px solid transparent;border-left:1px solid #000;color:#000;">
+                                </td>
+                                <td style="text-align:left;padding:2px 5px;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;">
+                                   COD Charges: 
+                                </td>
+                                <td align="right" style="padding:5px;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;"> {{order.cod_charge | currency:""}}</td>
+                                 <td align="center" style="padding:5px 0;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;">&nbsp;</td>
+                                 <td align="right" style="padding:5px 0;line-height:18px;font-size:14px;border-bottom:1px solid #000;border-left:1px solid #000;color:#000;border-right:1px solid #000;">
+                                    {{order.cod_amount | currency:""}}
+                                 </td>
+                            </tr>
+                            
+                            <tr style="border-bottom:1px solid #b7b7b7;padding:0px 0;line-height:18px;">
+                                <td style="border-bottom:1px solid #000;text-align:left;padding:2px;line-height:18px;font-size:14px;border-left:1px solid #000;color:#000;">
+                                </td>
+                                <td colspan="3" style="text-align:left;padding:2px;line-height:18px;font-size:14px;border-left:1px solid #000;color:#000;">
+                                   Discount Amount : 
+                                </td>
+                                <td style="text-align:right;padding:5px 0;line-height:18px;font-size:14px;border-left:1px solid #000;border-right:1px solid #000;color:#000;">
+                                  {{order.discount_amount | currency:""}}
+                                </td>
+                            </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="padding:0px 0;line-height:25px;">
+                            <th style="text-align:left;border-bottom:1px solid #000;border-left:1px solid #000;padding:5px;line-height:25px;font-size:14px;color:#000;"><b></b></th>
+                            <th colspan="2" style="text-align:left;border-bottom:1px solid #000;border-top:1px solid #000;border-left:1px solid #000;padding:5px;line-height:25px;font-size:14px;color:#000;"><b>Total</b></th>
+                            <th  style="text-align:right;border-bottom:1px solid #000;border-top:1px solid #000;border-left:1px solid #000;background-color:#ddd;padding:5px;line-height:25px;font-size:14px;color:#000;">{{(order.total_tax + order.shipping_tax + order.cod_tax) | currency:""}}</th>
+                            <th  style="text-align:center;border-top:1px solid #000;padding:5px;line-height:25px;font-size:14px;">{{order.total_tax | currency:""}}</th>
+                                {{order.grand_total}}
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div> 
+        </div>
+        <div style="clear:both"></div>
+        <div style="border-bottom:1px solid #000;border-top:1px solid #000;page-break-before:auto">
+            <div style="float:right;text-align:right;margin-top:30px;">
+                <div style="text-align:right;font-size:14px;text-transform:capitalize;margin-right: 15px;"><b>MyIndianStitch</b></div>
+                <img src="{{rootUrl}}assets/img/signature.png" style="max-height:80px;margin-right: 15px;" />
+                <div style="text-align:right;font-size:14px;margin-right: 15px;margin-bottom: 15px;">Authorized Signatory</div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <div style="border-bottom:1px solid #000;border-top:1px solid #000;page-break-before:auto">
+             <p style="padding: 5px 15px;">Contact Us: 8879572587 | 9821694444<br />
+                 <a href="mailto:crm@prarambhstore.com">info@myindianstitch.com</a>
+             </p>
+         </div>
+    </div>
+    <div style="page-break-after:always"></div>
+</div> -->
+
+<style type="text/css">
+    .basicModal {
+        margin-top: 100px;
+    }
+</style>
+
+<modal visible="cancelModal" title="Cancel Order" class="basicModal" data-backdrop="static">
+    <div class="panel-body">
+      <form name="cancelForm" id="cancelForm" ng-submit="submitCencelRequest(cancelForm)" ng-validate="validateCancelReq">
+        <div class="form-group">
+            <label for="cencellation_reason" class="form-label">Reason For Order Cancellation  <sup class="required_star">*</sup></label>
+            <textarea name="cencellation_reason" placeholder="Leave your message here..." rows="4" ng-model="cancel_order.cencellation_reason" autocomplete="off" type="text" class="form-control" id="cencellation_reason" required=""></textarea>
+        </div>
+
+        <div class="text-center" style="margin-top:20px;">
+          <button type="button" class="btn btn-icon btn-3 btn-danger" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-icon btn-3 btn-primary">
+            <span ng-if="!load_cancel">Cancel Order</span>
+            <span ng-if="load_cancel"><i class="fa fa-spinner fa-1x fa-w fa-pulse"></i>&nbsp;Please Wait...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+</modal>
+
